@@ -1,7 +1,80 @@
 body {
   min-height: 100%;
+  background-color: #f2f2f2;
 }
 
 footer {
   margin-top: auto !important;
+}
+
+.border-round {
+  border-radius: 50%;
+}
+
+.avatar {
+  width: 120px;
+  height: 120px;
+  position: absolute;
+  top: 35%;
+  left: 25%;
+}
+
+.card-header {
+  position: relative;
+  min-height: 100px;
+}
+
+.border-top-orange {
+  border-top: 5px solid #e95420;
+}
+
+.button-rounded {
+  border-radius: 30px;
+}
+
+.publish-btn {
+  padding: 0;
+  padding: 2px 20px;
+}
+
+.follow-suggestions p,
+.follow-suggestions a {
+  margin: 0;
+  padding: 0;
+}
+
+.follow-suggestions p {
+  color: #27aaee;
+  font-size: 14px;
+}
+
+.follow-suggestions a {
+  font-size: 13px;
+  text-decoration: none;
+}
+
+.post-text {
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.tags {
+  display: flex;
+}
+
+.post-user-badge {
+  background-color: #27aaee;
+  color: #fff;
+  padding: 5px;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.tags-item {
+  background-color: #f2f2f2;
+  color: gray;
+  padding: 10px;
+  margin: 10px 5px;
+  border-radius: 30px;
+  font-size: 13px;
 }

@@ -8,6 +8,8 @@ import Footer from './components/layouts/Footer'
 import Login from './screens/auth/Login'
 import Register from './screens/auth/Register'
 
+import NewsFeed from './screens/NewsFeed'
+
 function App() {
   return (
     <Router>
@@ -17,6 +19,7 @@ function App() {
           <Routes>
             <Route path='/' element={<Login />} />
             <Route path='/register' element={<Register />} />
+            <Route path='/newsfeed' element={<NewsFeed />} />
           </Routes>
         </Container>
         <Footer />
