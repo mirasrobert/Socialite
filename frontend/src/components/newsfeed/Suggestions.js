@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 const Suggestions = () => {
   return (
-    <div>
+    <div id='who-to-follow'>
       <h5>Who to Follow</h5>
       <ListGroup variant='flush' className='transparent'>
         <ListGroup.Item className='py-3'>

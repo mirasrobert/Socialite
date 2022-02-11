@@ -2,7 +2,7 @@ import NavigationBar from '../NavigationBar'
 
 const Header = () => {
   return (
-    <div>
+    <div className='sticky-top'>
       <NavigationBar />
     </div>
   )

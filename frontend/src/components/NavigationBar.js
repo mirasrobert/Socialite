@@ -3,7 +3,7 @@ import { Navbar, Container } from 'react-bootstrap'
 const NavigationBar = () => {
   return (
     <>
-      <Navbar bg='primary' variant='primary' className='mb-4 sticky-top'>
+      <Navbar bg='primary' variant='primary' className='nav mb-4'>
         <Container>
           <Navbar.Brand href='#home'>
             <img

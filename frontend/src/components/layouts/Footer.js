@@ -1,9 +1,10 @@
 import { Container } from 'react-bootstrap'
 
 const Footer = () => {
+  //className='d-flex py-3 justify-content-center bg-secondary'
   return (
-    <footer className='mt-5'>
-      <div className='d-flex py-3 justify-content-center bg-secondary'>
+    <footer className='bg-secondary mt-auto'>
+      <div>
         <Container>
           <span className='text-white'>2022 &copy; Socialite</span>
         </Container>

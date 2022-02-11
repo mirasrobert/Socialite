@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 const MiniProfile = () => {
   return (
-    <div>
+    <div id='mini-profile'>
       <Card>
         <Card.Header className='bg-primary card-header d-flex justify-content-center'>
           <Image

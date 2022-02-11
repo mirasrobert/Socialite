@@ -4,14 +4,21 @@ exports.validate = (method) => {
   switch (method) {
     case 'registerUserValidation': {
       return [
-        body('name').notEmpty().withMessage('Name is required'),
-        body('email').isEmail().withMessage('Please put a valid email'),
+        body('name').notEmpty().withMessage('Name is required').trim().escape(),
+        body('email')
+          .isEmail()
+          .withMessage('Please put a valid email')
+          .normalizeEmail()
+          .trim()
+          .escape(),
         // password must be at least 5 chars long
         body('password')
           .notEmpty()
           .withMessage('Password is required')
           .isLength({ min: 7 })
-          .withMessage('Password must be 7 characters long'),
+          .withMessage('Password must be 7 characters long')
+          .trim()
+          .escape(),
       ]
     }
 
