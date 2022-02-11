@@ -103,3 +103,7 @@ footer {
   position: sticky;
   top: 80px;
 }
+
+.min-vh-70 {
+  min-height: 70vh;
+}
