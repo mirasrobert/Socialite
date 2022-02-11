@@ -107,3 +107,7 @@ footer {
 .min-vh-70 {
   min-height: 70vh;
 }
+
+.navbar-nav .nav-link {
+  color: #fff;
+}
