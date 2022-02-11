@@ -23,11 +23,12 @@ const Login = () => {
     if (userInfo) {
       navigate('/newsfeed')
     }
-  }, [history, userInfo])
+  }, [userInfo])
 
   const submitHandler = (e) => {
     e.preventDefault()
 
+    // DISPATCH LOGIN
     dispatch(login(email, password))
   }
 

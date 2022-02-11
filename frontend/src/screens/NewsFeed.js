@@ -4,7 +4,23 @@ import PostForm from '../components/newsfeed/PostForm'
 import Posts from '../components/newsfeed/Posts'
 import Suggestions from '../components/newsfeed/Suggestions'
 
+import { useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { useEffect } from 'react'
+
 const NewsFeed = () => {
+  const userLogin = useSelector((state) => state.userLogin)
+
+  const { loading, userInfo } = userLogin
+
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (!userInfo && !loading) {
+      navigate('/')
+    }
+  }, [userInfo])
+
   return (
     <>
       <Row>
