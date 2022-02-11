@@ -88,14 +88,14 @@ const Register = () => {
                 onChange={(e) => setName(e.target.value)}
               />
 
-              {!loading && (
-                <div className='invalid-feedback'>
-                  {errors &&
-                    Array.isArray(errors) &&
-                    errors.length > 0 &&
-                    errors.filter((err) => err.param === 'name')[0].msg}
-                </div>
-              )}
+              <div className='invalid-feedback'>
+                {errors &&
+                Array.isArray(errors) &&
+                errors.length > 0 &&
+                errors.filter((err) => err.param === 'name').length > 0
+                  ? errors.filter((err) => err.param === 'name')[0].msg
+                  : ''}
+              </div>
             </Form.Group>
 
             <Form.Group className='mb-3'>
@@ -109,14 +109,14 @@ const Register = () => {
                 onChange={(e) => setEmail(e.target.value)}
               />
 
-              {!loading && (
-                <div className='invalid-feedback'>
-                  {errors &&
-                    Array.isArray(errors) &&
-                    errors.length > 0 &&
-                    errors.filter((err) => err.param === 'email')[0].msg}
-                </div>
-              )}
+              <div className='invalid-feedback'>
+                {errors &&
+                Array.isArray(errors) &&
+                errors.length > 0 &&
+                errors.filter((err) => err.param === 'email').length > 0
+                  ? errors.filter((err) => err.param === 'email')[0].msg
+                  : ''}
+              </div>
 
               <Form.Text className='text-muted'>
                 We'll never share your email with anyone else.
@@ -134,14 +134,14 @@ const Register = () => {
                 onChange={(e) => setPassword(e.target.value)}
               />
 
-              {!loading && (
-                <div className='invalid-feedback'>
-                  {errors &&
-                    errors.constructor == Array &&
-                    errors.length > 0 &&
-                    errors.filter((err) => err.param === 'password')[0].msg}
-                </div>
-              )}
+              <div className='invalid-feedback'>
+                {errors &&
+                Array.isArray(errors) &&
+                errors.length > 0 &&
+                errors.filter((err) => err.param === 'password').length > 0
+                  ? errors.filter((err) => err.param === 'password')[0].msg
+                  : ''}
+              </div>
             </Form.Group>
 
             <Form.Group className='mb-3'>
