@@ -1,7 +1,13 @@
 import { Card, Image } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 
+import { useSelector } from 'react-redux'
+
 const MiniProfile = () => {
+  const userLogin = useSelector((state) => state.userLogin)
+
+  const { userInfo } = userLogin
+
   return (
     <div id='mini-profile'>
       <Card>
@@ -9,7 +15,7 @@ const MiniProfile = () => {
           <Image
             className='border-round avatar'
             thumbnail
-            src={`https://randomuser.me/api/portraits/men/67.jpg`}
+            src={userInfo.avatar}
           />
         </Card.Header>
         <Card.Body className='mt-5 text-center'>

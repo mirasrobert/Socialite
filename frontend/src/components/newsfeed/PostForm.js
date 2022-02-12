@@ -5,6 +5,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import { addPost } from '../../actions/postActions'
 
 const Post = () => {
+  const userLogin = useSelector((state) => state.userLogin)
+
+  const { userInfo } = userLogin
+
   const [tags, setTags] = useState('')
   const [text, setText] = useState('')
 
@@ -54,11 +58,11 @@ const Post = () => {
                   fluid
                   width='50'
                   height='50'
-                  src={`https://randomuser.me/api/portraits/men/67.jpg`}
+                  src={userInfo.avatar}
                 />
               </Col>
               <Col md={10}>
-                <div className='mb-3'>
+                <div className='mb-2'>
                   <textarea
                     className={`form-control ${textError}`}
                     placeholder='Write what you wish'
