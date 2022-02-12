@@ -3,6 +3,17 @@ const { validationResult } = require('express-validator')
 const asyncHandler = require('express-async-handler')
 const User = require('../models/userModel')
 
+// @desc    Get all users
+// @route   GET /api/users
+// @access  Private
+const getAllUsers = asyncHandler(async (req, res) => {
+  const user = await User.find()
+    .sort([['createdAt', '-1']])
+    .limit(6)
+
+  res.status(200).json(user)
+})
+
 // @desc    Register new user
 // @route   POST /api/users
 // @access  Public
@@ -169,6 +180,20 @@ const updateUser = asyncHandler(async (req, res) => {
   }
 })
 
+// @desc    Get single user by id
+// @route   GET /api/users/:id
+// @access  Private
+const getSingleUser = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id)
+
+  if (!user) {
+    res.status(404)
+    throw new Error('User not found')
+  }
+
+  res.status(200).json(user)
+})
+
 // @desc    Get user data
 // @route   GET /api/users/me
 // @access  Private
@@ -194,4 +219,6 @@ module.exports = {
   loginUser,
   getMe,
   updateUser,
+  getSingleUser,
+  getAllUsers,
 }

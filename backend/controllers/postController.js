@@ -7,7 +7,7 @@ const Post = require('../models/postModel')
 // @access  Private
 const getPosts = asyncHandler(async (req, res) => {
   const posts = await Post.find()
-    .populate('user', ['name'])
+    .populate('user', ['name', 'avatar'])
     .sort([['createdAt', '-1']])
 
   res.status(200).json(posts)
@@ -30,7 +30,10 @@ const addPost = asyncHandler(async (req, res) => {
     tags,
   })
 
-  let post = await Post.findOne({ _id: newPost._id }).populate('user', ['name'])
+  let post = await Post.findOne({ _id: newPost._id }).populate('user', [
+    'name',
+    'avatar',
+  ])
 
   if (post) {
     res.status(201).json(post)

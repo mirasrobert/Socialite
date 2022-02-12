@@ -11,6 +11,7 @@ import Register from './screens/auth/Register'
 import NewsFeed from './screens/NewsFeed'
 import Profile from './screens/Profile'
 import EditProfile from './screens/EditProfile'
+import OtherProfile from './screens/OtherProfile'
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
             <Route path='/register' element={<Register />} />
             <Route path='/newsfeed' element={<NewsFeed />} />
             <Route path='/profile' element={<Profile />} />
+            <Route path='/profiles/:id' element={<OtherProfile />} />
             <Route path='/profile/edit' element={<EditProfile />} />
           </Routes>
         </Container>

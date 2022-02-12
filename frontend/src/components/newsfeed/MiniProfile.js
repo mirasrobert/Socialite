@@ -20,10 +20,8 @@ const MiniProfile = () => {
         </Card.Header>
         <Card.Body className='mt-5 text-center'>
           <div>
-            <h5>John Doe</h5>
-            <small className='text-muted'>
-              Graphic Designer at Self Employed
-            </small>
+            <h5>{userInfo.name}</h5>
+            <small className='text-muted'>{userInfo.job}</small>
           </div>
           <hr />
           <div>

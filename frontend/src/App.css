@@ -12,7 +12,8 @@ body,
   overflow: unset;
 }
 
-.navbar {
+nav {
+  max-height: 20vh;
   z-index: 100 !important;
 }
 
@@ -92,7 +93,36 @@ footer {
   font-size: 13px;
 }
 
-#mini-profile {
+html,
+body {
+  overflow: auto;
+}
+
+#newsFeed {
+  overflow: none;
+}
+
+.newsfeedCenter {
+  position: relative;
+  max-height: calc(100vh - 20vh);
+  overflow: auto;
+}
+
+/* Hide Scrollbar */
+.newsfeedCenter::-webkit-scrollbar {
+  width: 0px;
+  background: transparent; /* make scrollbar transparent */
+}
+
+.newsfeedLeft {
+  overflow: none;
+}
+
+.newsfeedRight {
+  overflow: none;
+}
+
+/* #mini-profile {
   position: -webkit-sticky;
   position: sticky;
   top: 80px;
@@ -102,7 +132,7 @@ footer {
   position: -webkit-sticky;
   position: sticky;
   top: 80px;
-}
+} */
 
 .min-vh-70 {
   min-height: 70vh;

@@ -6,6 +6,8 @@ import {
   userLoginReducer,
   userRegisterReducer,
   userUpdateReducer,
+  userGetAllReducer,
+  userGetSingleReducer,
 } from './reducers/userReducers'
 
 import { userPostsReducer } from './reducers/postReducer'
@@ -13,6 +15,8 @@ import { userPostsReducer } from './reducers/postReducer'
 const reducer = combineReducers({
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
+  userGetAll: userGetAllReducer,
+  userGetSingle: userGetSingleReducer,
   userUpdate: userUpdateReducer,
   userPosts: userPostsReducer,
 })

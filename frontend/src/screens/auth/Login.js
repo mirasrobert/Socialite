@@ -20,7 +20,7 @@ const Login = () => {
   const { loading, userInfo, errors } = userLogin // destructure userInfo that got from the state
 
   useEffect(() => {
-    if (userInfo) {
+    if (userInfo && userInfo.token) {
       navigate('/newsfeed')
     }
   }, [userInfo])

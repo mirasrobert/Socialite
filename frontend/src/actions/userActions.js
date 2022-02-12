@@ -11,6 +11,12 @@ import {
   USER_UPDATE_REQUEST,
   USER_UPDATE_SUCCESS,
   USER_UPDATE_FAIL,
+  USER_GET_ALL_REQUEST,
+  USER_GET_ALL_SUCCESS,
+  USER_GET_ALL_FAIL,
+  USER_GET_SINGLE_REQUEST,
+  USER_GET_SINGLE_SUCCESS,
+  USER_GET_SINGLE_FAIL,
 } from '../constants/userConstants'
 
 import setAuthToken from '../utils/setAuthToken'
@@ -87,6 +93,66 @@ export const register = (name, email, password) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: USER_REGISTER_FAIL,
+      payload:
+        error.response && error.response.data.errors
+          ? error.response.data.errors
+          : error.errors,
+    })
+  }
+}
+
+// Get All Users
+// User Login
+export const getAllUsers = () => async (dispatch) => {
+  try {
+    // Change the state
+    dispatch({
+      type: USER_GET_ALL_REQUEST,
+    })
+
+    const user = JSON.parse(localStorage.getItem('userInfo'))
+
+    setAuthToken(user.token) // Pass the token to headers
+
+    const { data } = await axios.get(`/api/users`)
+
+    dispatch({
+      type: USER_GET_ALL_SUCCESS,
+      payload: data,
+    })
+  } catch (error) {
+    dispatch({
+      type: USER_GET_ALL_FAIL,
+      payload:
+        error.response && error.response.data.errors
+          ? error.response.data.errors
+          : error.errors,
+    })
+  }
+}
+
+// Get Single User
+// User Login
+export const getSingleUser = (id) => async (dispatch) => {
+  try {
+    // Change the state
+    dispatch({
+      type: USER_GET_SINGLE_REQUEST,
+    })
+
+    const user = JSON.parse(localStorage.getItem('userInfo'))
+
+    setAuthToken(user.token) // Pass the token to headers
+
+    const { data } = await axios.get(`/api/users/${id}`)
+
+    dispatch({
+      type: USER_GET_SINGLE_SUCCESS,
+      payload: data,
+    })
+  } catch (error) {
+    dispatch({
+      type: USER_GET_SINGLE_FAIL,
       payload:
         error.response && error.response.data.errors
           ? error.response.data.errors

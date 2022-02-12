@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { Navbar, Nav, NavDropdown, Container } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
@@ -11,7 +12,14 @@ const NavigationBar = () => {
 
   const userLogin = useSelector((state) => state.userLogin)
 
-  const { userInfo } = userLogin
+  const { userInfo, loading } = userLogin
+
+  useEffect(() => {
+    if ((!userInfo || !userInfo.token) && !loading) {
+      // Check if logged in
+      return navigate('/')
+    }
+  }, [userInfo])
 
   const logoutHandler = () => {
     dispatch(logout())
@@ -22,16 +30,18 @@ const NavigationBar = () => {
     <>
       <Navbar bg='primary' variant='primary' className='nav mb-4'>
         <Container>
-          <Navbar.Brand href='#home'>
-            <img
-              alt=''
-              src='https://react-bootstrap.github.io/logo.svg'
-              width='30'
-              height='30'
-              className='d-inline-block align-top'
-            />{' '}
-            <span className='text-white'>Socialite</span>
-          </Navbar.Brand>
+          <LinkContainer to={!userInfo || !userInfo.token ? '/' : '/newsfeed'}>
+            <Navbar.Brand href='#home'>
+              <img
+                alt=''
+                src='https://react-bootstrap.github.io/logo.svg'
+                width='30'
+                height='30'
+                className='d-inline-block align-top'
+              />{' '}
+              <span className='text-white'>Socialite</span>
+            </Navbar.Brand>
+          </LinkContainer>
 
           <Navbar.Collapse id='basic-navbar-nav'>
             <Nav className='ms-auto'>

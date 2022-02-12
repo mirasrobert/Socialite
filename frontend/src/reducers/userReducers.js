@@ -9,6 +9,12 @@ import {
   USER_UPDATE_REQUEST,
   USER_UPDATE_SUCCESS,
   USER_UPDATE_FAIL,
+  USER_GET_ALL_REQUEST,
+  USER_GET_ALL_SUCCESS,
+  USER_GET_ALL_FAIL,
+  USER_GET_SINGLE_REQUEST,
+  USER_GET_SINGLE_SUCCESS,
+  USER_GET_SINGLE_FAIL,
 } from '../constants/userConstants'
 
 const defaultState = { userInfo: null }
@@ -57,6 +63,38 @@ export const userUpdateReducer = (state = defaultState, action) => {
       return { loading: false, userInfo: action.payload }
 
     case USER_UPDATE_FAIL:
+      return { loading: false, errors: action.payload }
+
+    default:
+      return { ...state }
+  }
+}
+
+export const userGetAllReducer = (state = { users: [] }, action) => {
+  switch (action.type) {
+    case USER_GET_ALL_REQUEST:
+      return { loading: true }
+
+    case USER_GET_ALL_SUCCESS:
+      return { loading: false, users: action.payload }
+
+    case USER_GET_ALL_FAIL:
+      return { loading: false, errors: action.payload }
+
+    default:
+      return { ...state }
+  }
+}
+
+export const userGetSingleReducer = (state = { user: null }, action) => {
+  switch (action.type) {
+    case USER_GET_SINGLE_REQUEST:
+      return { loading: true }
+
+    case USER_GET_SINGLE_SUCCESS:
+      return { loading: false, user: action.payload }
+
+    case USER_GET_SINGLE_FAIL:
       return { loading: false, errors: action.payload }
 
     default:

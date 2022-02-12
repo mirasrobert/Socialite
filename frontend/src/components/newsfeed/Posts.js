@@ -29,14 +29,14 @@ const Post = () => {
       ) : (
         <Row>
           {posts.map((post) => (
-            <div className='col-md-12 grid-margin' key={post._id}>
+            <div className='col-md-12 grid-margin mb-3' key={post._id}>
               <div className='card rounded'>
                 <div className='card-header'>
                   <div className='d-flex align-items-center justify-content-between'>
                     <div className='d-flex align-items-center'>
                       <img
                         className='img-xs rounded-circle m-0'
-                        src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtDrl3S-9QrvuQseJS-bfz-hx_7xpsrJFe5w&usqp=CAU'
+                        src={post.user.avatar}
                         alt=''
                       />
                       <div className='ms-2 d-flex flex-column'>
@@ -61,9 +61,9 @@ const Post = () => {
                           viewBox='0 0 24 24'
                           fill='none'
                           stroke='currentColor'
-                          stroke-width='2'
-                          stroke-linecap='round'
-                          stroke-linejoin='round'
+                          strokeWidth='2'
+                          strokeLinecap='round'
+                          strokeLinejoin='round'
                           className='feather feather-more-horizontal icon-lg pb-3px'>
                           <circle cx='12' cy='12' r='1'></circle>
                           <circle cx='19' cy='12' r='1'></circle>
@@ -83,9 +83,9 @@ const Post = () => {
                             viewBox='0 0 24 24'
                             fill='none'
                             stroke='currentColor'
-                            stroke-width='2'
-                            stroke-linecap='round'
-                            stroke-linejoin='round'
+                            strokeWidth='2'
+                            strokeLinecap='round'
+                            strokeLinejoin='round'
                             className='feather feather-meh icon-sm mr-2'>
                             <circle cx='12' cy='12' r='10'></circle>
                             <line x1='8' y1='15' x2='16' y2='15'></line>
@@ -104,9 +104,9 @@ const Post = () => {
                             viewBox='0 0 24 24'
                             fill='none'
                             stroke='currentColor'
-                            stroke-width='2'
-                            stroke-linecap='round'
-                            stroke-linejoin='round'
+                            strokeWidth='2'
+                            strokeLinecap='round'
+                            strokeLinejoin='round'
                             className='feather feather-corner-right-up icon-sm mr-2'>
                             <polyline points='10 9 15 4 20 9'></polyline>
                             <path d='M4 20h7a4 4 0 0 0 4-4V4'></path>
@@ -123,9 +123,9 @@ const Post = () => {
                             viewBox='0 0 24 24'
                             fill='none'
                             stroke='currentColor'
-                            stroke-width='2'
-                            stroke-linecap='round'
-                            stroke-linejoin='round'
+                            strokeWidth='2'
+                            strokeLinecap='round'
+                            strokeLinejoin='round'
                             className='feather feather-share-2 icon-sm mr-2'>
                             <circle cx='18' cy='5' r='3'></circle>
                             <circle cx='6' cy='12' r='3'></circle>
@@ -153,9 +153,9 @@ const Post = () => {
                             viewBox='0 0 24 24'
                             fill='none'
                             stroke='currentColor'
-                            stroke-width='2'
-                            stroke-linecap='round'
-                            stroke-linejoin='round'
+                            strokeWidth='2'
+                            strokeLinecap='round'
+                            strokeLinejoin='round'
                             className='feather feather-copy icon-sm mr-2'>
                             <rect
                               x='9'

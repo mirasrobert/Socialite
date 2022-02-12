@@ -48,7 +48,7 @@ const Post = () => {
 
   return (
     <>
-      <Card className='border-top-orange'>
+      <Card className='border-top-orange mb-4'>
         <Card.Body>
           <Form onSubmit={onSubmitHandler}>
             <Row className='g-0'>

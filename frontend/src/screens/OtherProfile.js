@@ -1,28 +1,52 @@
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
+import { useNavigate, useParams } from 'react-router-dom'
+
+import { getSingleUser } from '../actions/userActions'
+
+import Loader from '../components/Loader'
+import Message from '../components/Message'
 
 import moment from 'moment'
 
 const Profile = () => {
-  const userLogin = useSelector((state) => state.userLogin)
+  const { id } = useParams() // get the id for url parameter
 
-  const { loading, userInfo } = userLogin
+  const dispatch = useDispatch()
+
+  const userLogin = useSelector((state) => state.userLogin)
+  const userGetSingle = useSelector((state) => state.userGetSingle)
+
+  const { user, loading, errors } = userGetSingle
+
+  const { userInfo } = userLogin
 
   const navigate = useNavigate()
 
   useEffect(() => {
     if ((!userInfo || !userInfo.token) && !loading) {
       // Check if logged in
-      navigate('/')
+      return navigate('/')
     }
+
+    dispatch(getSingleUser(id))
+
+    console.log(user)
   }, [userInfo])
 
   return (
     <>
-      {loading && !userInfo ? (
+      {loading && !user ? (
         <Loader />
+      ) : errors ? (
+        <Message variant={'danger'}>{errors}</Message>
+      ) : user && user.errors ? (
+        <Message variant={'danger'}>
+          {user.errors.includes('Cast to ObjectId failed')
+            ? 'Server Error'
+            : 'User not found'}
+        </Message>
       ) : (
         <div className='profile-wrapper'>
           <div className='profile-section-user'>
@@ -35,15 +59,13 @@ const Profile = () => {
             <div className='profile-info-brief p-3'>
               <img
                 className='img-fluid user-profile-avatar'
-                src={userInfo && userInfo.avatar}
+                src={user && user.avatar}
                 alt=''
               />
               <div className='text-center'>
-                <h5 className='text-uppercase mb-4'>
-                  {userInfo && userInfo.name}
-                </h5>
+                <h5 className='text-uppercase mb-4'>{user && user.name}</h5>
                 <p className='text-muted fz-base'>
-                  {userInfo && userInfo.bio && userInfo.bio}
+                  {user && user.bio && user.bio}
                 </p>
               </div>
             </div>
@@ -61,10 +83,10 @@ const Profile = () => {
                       </td>
                       <td>
                         <p className='text-muted mb-0'>
-                          {userInfo &&
-                            userInfo.contact &&
-                            userInfo.contact.url &&
-                            userInfo.contact.url}
+                          {user &&
+                            user.contact &&
+                            user.contact.url &&
+                            user.contact.url}
                         </p>
                       </td>
                     </tr>
@@ -74,7 +96,7 @@ const Profile = () => {
                       </td>
                       <td>
                         <p className='text-muted mb-0'>
-                          {userInfo && userInfo.email && userInfo.email}
+                          {user && user.email && user.email}
                         </p>
                       </td>
                     </tr>
@@ -84,10 +106,10 @@ const Profile = () => {
                       </td>
                       <td>
                         <p className='text-muted mb-0'>
-                          {userInfo &&
-                            userInfo.contact &&
-                            userInfo.contact.phone &&
-                            userInfo.contact.phone}
+                          {user &&
+                            user.contact &&
+                            user.contact.phone &&
+                            user.contact.phone}
                         </p>
                       </td>
                     </tr>
@@ -106,7 +128,7 @@ const Profile = () => {
                       </td>
                       <td>
                         <p className='text-muted mb-0'>
-                          {userInfo && userInfo.job && userInfo.job}
+                          {user && user.job && user.job}
                         </p>
                       </td>
                     </tr>
@@ -116,7 +138,7 @@ const Profile = () => {
                       </td>
                       <td>
                         <p className='text-muted mb-0'>
-                          {userInfo && userInfo.position && userInfo.position}
+                          {user && user.position && user.position}
                         </p>
                       </td>
                     </tr>
@@ -126,7 +148,7 @@ const Profile = () => {
                       </td>
                       <td>
                         <p className='text-muted mb-0'>
-                          {userInfo && userInfo.studied && userInfo.studied}
+                          {user && user.studied && user.studied}
                         </p>
                       </td>
                     </tr>
@@ -136,7 +158,7 @@ const Profile = () => {
                       </td>
                       <td>
                         <p className='text-muted mb-0'>
-                          {userInfo && moment(userInfo.createdAt).format('LL')}
+                          {user && moment(user.createdAt).format('LL')}
                         </p>
                       </td>
                     </tr>
@@ -158,17 +180,6 @@ const Profile = () => {
                   role='tab'>
                   Timeline
                 </a>
-              </li>
-
-              <li className='nav-item'>
-                <Link
-                  className='nav-link active'
-                  data-toggle='tab'
-                  to='/profile/edit'
-                  role='tab'>
-                  <i className='fas fa-edit'></i>
-                  Edit Profile
-                </Link>
               </li>
             </ul>
 

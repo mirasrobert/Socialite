@@ -22,7 +22,7 @@ const Register = () => {
   const { loading, userInfo, errors } = userRegister // destructure userInfo that got from the state
 
   useEffect(() => {
-    if (userInfo) {
+    if (userInfo && userInfo.token) {
       navigate('/newsfeed')
     }
   }, [userInfo])
