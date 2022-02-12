@@ -6,7 +6,7 @@ const Post = require('../models/postModel')
 // @route   GET /api/posts
 // @access  Private
 const getPosts = asyncHandler(async (req, res) => {
-  const posts = await Post.find()
+  const posts = await Post.find().populate('user', ['name'])
 
   res.status(200).json(posts)
 })
