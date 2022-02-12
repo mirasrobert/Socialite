@@ -30,6 +30,14 @@ exports.validate = (method) => {
       ]
     }
 
+    case 'updateUserValidation': {
+      return [
+        body('email').isEmail().withMessage('Please put a valid email'),
+        // password must be at least 5 chars long
+        body('name').notEmpty().withMessage('Name is required'),
+      ]
+    }
+
     default: {
       throw new Error('Invalid validation')
     }

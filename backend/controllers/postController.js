@@ -6,7 +6,9 @@ const Post = require('../models/postModel')
 // @route   GET /api/posts
 // @access  Private
 const getPosts = asyncHandler(async (req, res) => {
-  const posts = await Post.find().populate('user', ['name'])
+  const posts = await Post.find()
+    .populate('user', ['name'])
+    .sort([['createdAt', '-1']])
 
   res.status(200).json(posts)
 })
@@ -28,10 +30,12 @@ const addPost = asyncHandler(async (req, res) => {
     tags,
   })
 
-  if (newPost) {
-    res.status(201).json(newPost)
+  let post = await Post.findOne({ _id: newPost._id }).populate('user', ['name'])
+
+  if (post) {
+    res.status(201).json(post)
   } else {
-    throw new Erro('Something went wrong adding post.')
+    throw new Error('Something went wrong adding post.')
   }
 })
 
@@ -63,7 +67,7 @@ const updatePost = asyncHandler(async (req, res) => {
   if (post) {
     res.status(200).json(post)
   } else {
-    throw new Erro('Something went wrong updating post.')
+    throw new Error('Something went wrong updating post.')
   }
 })
 

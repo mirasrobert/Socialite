@@ -16,6 +16,31 @@ const userSchema = mongoose.Schema(
       type: String,
       required: [true, 'Please add a password'],
     },
+    avatar: {
+      type: String,
+      default:
+        'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y',
+    },
+    bio: {
+      type: String,
+    },
+    contact: {
+      url: {
+        type: String,
+      },
+      phone: {
+        type: String,
+      },
+    },
+    job: {
+      type: String,
+    },
+    position: {
+      type: String,
+    },
+    studied: {
+      type: String,
+    },
   },
   {
     timestamps: true,

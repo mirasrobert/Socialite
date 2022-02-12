@@ -24,18 +24,31 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 
   // Create user
-  const user = await User.create({
+  const newUser = await User.create({
     name,
     email,
     password,
   })
 
+  const user = await User.findById(newUser._id)
+
   if (user) {
+    const token = generateToken(user._id)
+
     res.status(201).json({
-      _id: user.id,
+      _id: user._id,
       name: user.name,
       email: user.email,
-      token: generateToken(user._id),
+      avatar: user.avatar,
+      bio: user.bio,
+      contact: {
+        url: user.contact.url,
+        phone: user.contact.phone,
+      },
+      job: user.job,
+      position: user.position,
+      studied: user.studied,
+      token,
     })
   } else {
     res.status(400)
@@ -59,15 +72,100 @@ const loginUser = asyncHandler(async (req, res) => {
   const user = await User.findOne({ email })
 
   if (user && (await user.matchPassword(password))) {
+    const token = generateToken(user._id)
+
     res.json({
-      _id: user.id,
+      _id: user._id,
       name: user.name,
       email: user.email,
-      token: generateToken(user._id),
+      avatar: user.avatar,
+      bio: user.bio,
+      contact: {
+        url: user.contact.url,
+        phone: user.contact.phone,
+      },
+      job: user.job,
+      position: user.position,
+      studied: user.studied,
+      token,
     })
   } else {
     res.status(400)
     throw new Error('Invalid credentials')
+  }
+})
+
+// @desc    Update users info
+// @route   PUT /api/users/:id
+// @access  Private
+const updateUser = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id)
+
+  // Make sure that user is owned the post
+  if (user._id.toString() !== req.user._id.toString()) {
+    res.status(401)
+    throw new Error('Not authorized')
+  }
+
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() })
+  }
+
+  const { name, email, bio, url, phone, job, position, studied } = req.body
+
+  if (name) {
+    user.name = name
+  }
+
+  if (email) {
+    user.email = email
+  }
+
+  if (bio) {
+    user.bio = bio
+  }
+
+  if (url) {
+    user.contact.url = url
+  }
+
+  if (phone) {
+    user.contact.phone = phone
+  }
+
+  if (job) {
+    user.job = job
+  }
+  if (position) {
+    user.position = position
+  }
+  if (studied) {
+    user.studied = studied
+  }
+
+  await user.save()
+
+  const token = generateToken(user._id)
+
+  if (user) {
+    res.status(200).json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      avatar: user.avatar,
+      bio: user.bio,
+      contact: {
+        url: user.contact.url,
+        phone: user.contact.phone,
+      },
+      job: user.job,
+      position: user.position,
+      studied: user.studied,
+      token,
+    })
+  } else {
+    throw new Error('Something went wrong updating profile.')
   }
 })
 
@@ -89,10 +187,11 @@ const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: '30d',
   })
-} 
+}
 
 module.exports = {
   registerUser,
   loginUser,
   getMe,
+  updateUser,
 }
