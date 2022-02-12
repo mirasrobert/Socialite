@@ -3,8 +3,8 @@ import { Card, Image, Row, Col } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAllPosts } from '../../actions/postActions'
 import Loader from '../Loader'
+import Message from '../Message'
 
-import humanizeDuration from 'humanize-duration'
 import moment from 'moment'
 
 const Post = () => {
@@ -18,14 +18,18 @@ const Post = () => {
     dispatch(getAllPosts())
   }, [dispatch])
 
+  if (error) {
+    return <Message variant={'error'}>{error}</Message>
+  }
+
   return (
     <>
-      {loading && !posts ? (
+      {loading && posts.length === 0 ? (
         <Loader />
       ) : (
         <>
           {posts.map((post) => (
-            <Card className='postsmy-3' key={post._id}>
+            <Card className='posts my-3' key={post._id}>
               <Card.Body>
                 <Row className='g-0'>
                   <Col md={1} className='me-1'>
