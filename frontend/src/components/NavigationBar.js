@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { Navbar, Nav, NavDropdown, Container } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import { logout } from '../actions/userActions'
+import { logout } from '../features/auth/authSlice'
 import { useNavigate } from 'react-router-dom'
 
 const NavigationBar = () => {
@@ -10,16 +10,16 @@ const NavigationBar = () => {
 
   const navigate = useNavigate()
 
-  const userLogin = useSelector((state) => state.userLogin)
+  const auth = useSelector((state) => state.auth)
 
-  const { userInfo, loading } = userLogin
+  const { user, isLoading } = auth
 
   useEffect(() => {
-    if ((!userInfo || !userInfo.token) && !loading) {
+    if ((!user || !user.token) && !isLoading) {
       // Check if logged in
       return navigate('/')
     }
-  }, [userInfo])
+  }, [user])
 
   const logoutHandler = () => {
     dispatch(logout())
@@ -30,7 +30,7 @@ const NavigationBar = () => {
     <>
       <Navbar bg='primary' variant='primary' className='nav mb-4'>
         <Container>
-          <LinkContainer to={!userInfo || !userInfo.token ? '/' : '/newsfeed'}>
+          <LinkContainer to={!user || !user.token ? '/' : '/newsfeed'}>
             <Navbar.Brand href='#home'>
               <img
                 alt=''
@@ -45,8 +45,8 @@ const NavigationBar = () => {
 
           <Navbar.Collapse id='basic-navbar-nav'>
             <Nav className='ms-auto'>
-              {userInfo ? (
-                <NavDropdown title={userInfo.name} id='basic-nav-dropdown'>
+              {user ? (
+                <NavDropdown title={user.name} id='basic-nav-dropdown'>
                   <LinkContainer to='/profile'>
                     <NavDropdown.Item>Profile</NavDropdown.Item>
                   </LinkContainer>

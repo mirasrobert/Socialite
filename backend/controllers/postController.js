@@ -22,13 +22,19 @@ const addPost = asyncHandler(async (req, res) => {
     return res.status(400).json({ errors: errors.array() })
   }
 
-  const { text, tags } = req.body
+  const { text, image } = req.body
 
-  const newPost = await Post.create({
+  let data = {
     user: req.user._id,
     text,
-    tags,
-  })
+  }
+
+  // User uploads an image
+  if (image) {
+    data.image = image
+  }
+
+  const newPost = await Post.create(data)
 
   let post = await Post.findOne({ _id: newPost._id }).populate('user', [
     'name',

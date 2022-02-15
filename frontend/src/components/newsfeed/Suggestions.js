@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { ListGroup, Image, Row, Col } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 
-import { getAllUsers } from '../../actions/userActions'
+import { getAllUsers } from '../../features/auth/authSlice'
 import { useDispatch, useSelector } from 'react-redux'
 
 import Loader from '../Loader'
@@ -10,9 +10,7 @@ import Loader from '../Loader'
 const Suggestions = () => {
   const dispatch = useDispatch()
 
-  const userGetAll = useSelector((state) => state.userGetAll)
-
-  const { users, loading } = userGetAll
+  const { users, isLoading } = useSelector((state) => state.auth)
 
   useEffect(() => {
     dispatch(getAllUsers())
@@ -21,7 +19,7 @@ const Suggestions = () => {
   return (
     <>
       <h5>Who to Follow</h5>
-      {!loading &&
+      {!isLoading &&
         users.map((user) => (
           <div id='who-to-follow' key={user._id}>
             <ListGroup variant='flush' className='transparent'>

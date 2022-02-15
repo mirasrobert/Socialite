@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 
-import { getSingleUser } from '../actions/userActions'
+import { getSingleUser } from '../features/auth/authSlice'
 
 import Loader from '../components/Loader'
 import Message from '../components/Message'
@@ -15,33 +15,28 @@ const Profile = () => {
 
   const dispatch = useDispatch()
 
-  const userLogin = useSelector((state) => state.userLogin)
-  const userGetSingle = useSelector((state) => state.userGetSingle)
-
-  const { user, loading, errors } = userGetSingle
-
-  const { userInfo } = userLogin
+  const { user, isLoading, errors, profile } = useSelector(
+    (state) => state.auth
+  )
 
   const navigate = useNavigate()
 
   useEffect(() => {
-    if ((!userInfo || !userInfo.token) && !loading) {
+    if ((!user || !user.token) && !isLoading) {
       // Check if logged in
       return navigate('/')
     }
 
     dispatch(getSingleUser(id))
-
-    console.log(user)
-  }, [userInfo])
+  }, [dispatch, user])
 
   return (
     <>
-      {loading && !user ? (
+      {isLoading ? (
         <Loader />
       ) : errors ? (
         <Message variant={'danger'}>{errors}</Message>
-      ) : user && user.errors ? (
+      ) : profile && profile.errors ? (
         <Message variant={'danger'}>
           {user.errors.includes('Cast to ObjectId failed')
             ? 'Server Error'
@@ -59,13 +54,15 @@ const Profile = () => {
             <div className='profile-info-brief p-3'>
               <img
                 className='img-fluid user-profile-avatar'
-                src={user && user.avatar}
+                src={profile && profile.avatar}
                 alt=''
               />
               <div className='text-center'>
-                <h5 className='text-uppercase mb-4'>{user && user.name}</h5>
+                <h5 className='text-uppercase mb-4'>
+                  {profile && profile.name}
+                </h5>
                 <p className='text-muted fz-base'>
-                  {user && user.bio && user.bio}
+                  {profile && profile.bio && user.bio}
                 </p>
               </div>
             </div>
@@ -96,7 +93,7 @@ const Profile = () => {
                       </td>
                       <td>
                         <p className='text-muted mb-0'>
-                          {user && user.email && user.email}
+                          {profile && profile.email && user.email}
                         </p>
                       </td>
                     </tr>
@@ -128,7 +125,7 @@ const Profile = () => {
                       </td>
                       <td>
                         <p className='text-muted mb-0'>
-                          {user && user.job && user.job}
+                          {profile && profile.job && user.job}
                         </p>
                       </td>
                     </tr>
@@ -138,7 +135,7 @@ const Profile = () => {
                       </td>
                       <td>
                         <p className='text-muted mb-0'>
-                          {user && user.position && user.position}
+                          {profile && profile.position && user.position}
                         </p>
                       </td>
                     </tr>
@@ -148,7 +145,7 @@ const Profile = () => {
                       </td>
                       <td>
                         <p className='text-muted mb-0'>
-                          {user && user.studied && user.studied}
+                          {profile && profile.studied && user.studied}
                         </p>
                       </td>
                     </tr>

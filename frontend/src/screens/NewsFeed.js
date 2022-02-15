@@ -11,33 +11,32 @@ import Suggestions from '../components/newsfeed/Suggestions'
 import Loader from '../components/Loader'
 
 const NewsFeed = () => {
-  const userLogin = useSelector((state) => state.userLogin)
+  const auth = useSelector((state) => state.auth)
 
-  const { loading, userInfo } = userLogin
+  const { user, isLoading } = auth
 
   const navigate = useNavigate()
 
   useEffect(() => {
-    if ((!userInfo || !userInfo.token) && !loading) {
+    if ((!user || !user.token) && !isLoading) {
       // Check if logged in
       return navigate('/')
     }
-  }, [userInfo])
+  }, [user])
 
   return (
     <>
-      {!userInfo || !userInfo.token ? (
+      {!user || !user.token ? (
         <Loader />
       ) : (
         <Row id='newsFeed'>
-          <Col md={3} className='newsfeedLeft'>
-            <MiniProfile />
-          </Col>
-          <Col md={6} className='newsfeedCenter'>
+          <Col lg={3}></Col>
+          <Col md={5} className='newsfeedCenter'>
             <PostForm />
+
             <Posts />
           </Col>
-          <Col md={3} className='newsfeedRight'>
+          <Col md={4} className='newsfeedRight'>
             <Suggestions />
           </Col>
         </Row>

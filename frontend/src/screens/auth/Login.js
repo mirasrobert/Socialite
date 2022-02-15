@@ -2,34 +2,58 @@ import { useState, useEffect } from 'react'
 import { Form, Button, Row, Col } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom'
 import Loader from '../../components/Loader'
+import { toast } from 'react-toastify'
 import Message from '../../components/Message'
-import { login } from '../../actions/userActions'
+import { login, reset } from '../../features/auth/authSlice'
 
 import { useDispatch, useSelector } from 'react-redux'
 
 const Login = () => {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+  })
+
+  const { email, password } = formData
+
+  const onChange = (e) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }))
+  }
 
   const navigate = useNavigate()
 
   const dispatch = useDispatch()
 
-  const userLogin = useSelector((state) => state.userLogin) // get the userLogin from the state
-
-  const { loading, userInfo, errors } = userLogin // destructure userInfo that got from the state
+  const { user, isLoading, isError, isSuccess, errors } = useSelector(
+    (state) => state.auth
+  )
+  // Get the values from global state
 
   useEffect(() => {
-    if (userInfo && userInfo.token) {
+    if (isError && typeof errors === 'string') {
+      toast.error(errors)
+    }
+
+    if (isSuccess || user) {
       navigate('/newsfeed')
     }
-  }, [userInfo])
+
+    dispatch(reset())
+  }, [user, isError, isSuccess, errors, navigate, dispatch])
 
   const submitHandler = (e) => {
     e.preventDefault()
 
     // DISPATCH LOGIN
-    dispatch(login(email, password))
+    const userData = {
+      email,
+      password,
+    }
+
+    dispatch(login(userData))
   }
 
   const emailError =
@@ -53,10 +77,12 @@ const Login = () => {
       <Row className='d-flex justify-content-center'>
         <Col md={8}>
           <h3 className='display-4 text-uppercase'>SIGN IN</h3>
-          {typeof errors === 'string' && (
+          {typeof errors === 'string' && isError ? (
             <Message variant='danger'>{errors}</Message>
+          ) : (
+            <></>
           )}
-          {loading ? (
+          {isLoading ? (
             <Loader />
           ) : (
             <Form onSubmit={submitHandler}>
@@ -68,7 +94,7 @@ const Login = () => {
                   name='email'
                   className={emailError}
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={onChange}
                 />
 
                 <div className='invalid-feedback'>
@@ -86,10 +112,10 @@ const Login = () => {
                 <Form.Control
                   type='password'
                   placeholder='Password'
-                  name='email'
+                  name='password'
                   className={passwordError}
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={onChange}
                 />
 
                 <div className='invalid-feedback'>

@@ -11,10 +11,6 @@ const postShema = mongoose.Schema(
       type: String,
       required: true,
     },
-    tags: {
-      type: String,
-      required: true,
-    },
     image: {
       type: String,
     },
@@ -23,5 +19,10 @@ const postShema = mongoose.Schema(
     timestamps: true,
   }
 )
+
+// tags: {
+//   type: String,
+//   required: true,
+// },
 
 module.exports = mongoose.model('Post', postShema)

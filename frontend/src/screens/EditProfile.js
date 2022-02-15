@@ -2,8 +2,9 @@ import { useState, useEffect } from 'react'
 import { Row, Col, Button, Form } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import { updateUser } from '../actions/userActions'
+import { updateProfile } from '../features/auth/authSlice'
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 import Loader from '../components/Loader'
 
@@ -12,47 +13,63 @@ const EditProfile = () => {
 
   const navigate = useNavigate()
 
-  const userLogin = useSelector((state) => state.userLogin)
+  const auth = useSelector((state) => state.auth)
 
-  const { userInfo, loading } = userLogin
+  const { user, isLoading, isError, errors, isSuccess } = auth
 
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [bio, setBio] = useState('')
-  const [phone, setPhone] = useState('')
-  const [url, setUrl] = useState('')
-  const [job, setJob] = useState('')
-  const [position, setPosition] = useState('')
-  const [studied, setStudied] = useState('')
+  const [formData, setFormData] = useState({
+    name: user.name || '',
+    email: user.email || '',
+    bio: user.bio || '',
+    phone: user.phone || '',
+    url: user.url || '',
+    job: user.job || '',
+    position: user.position || '',
+    studied: user.studied || '',
+  })
+
+  const { name, email, bio, phone, url, job, position, studied } = formData
+
+  const onChange = (e) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }))
+  }
 
   useEffect(() => {
-    if ((!userInfo || !userInfo.token) && !loading) {
+    if ((!user || !user.token) && !isLoading) {
       return navigate('/')
     }
-
-    setName(userInfo.name)
-
-    setEmail(userInfo.email)
-
-    if (userInfo.bio) setBio(userInfo.bio)
-    if (userInfo.contact && userInfo.contact.phone)
-      setPhone(userInfo.contact.phone)
-
-    if (userInfo.contact && userInfo.contact.url) setUrl(userInfo.contact.url)
-    if (userInfo.job) setJob(userInfo.job)
-    if (userInfo.position) setPosition(userInfo.position)
-    if (userInfo.studied) setStudied(userInfo.studied)
-  }, [userInfo])
+  }, [user])
 
   const submitHandler = (e) => {
     e.preventDefault()
-    dispatch(updateUser(name, email, bio, url, phone, job, position, studied))
+
+    const data = {
+      formData: {
+        name,
+        email,
+        bio,
+        phone,
+        url,
+        job,
+        position,
+        studied,
+      },
+      id: user._id,
+    }
+
+    dispatch(updateProfile(data, formData))
+
+    toast.success('Profile updated')
+
     navigate('/profile')
   }
 
   return (
     <>
-      {!userInfo || !userInfo.token ? (
+      {!user || !user.token ? (
         <Loader />
       ) : (
         <div>
@@ -78,7 +95,7 @@ const EditProfile = () => {
                         placeholder='Enter your full name'
                         name='name'
                         value={name}
-                        onChange={(e) => setName(e.target.value)}
+                        onChange={onChange}
                       />
 
                       <div className='invalid-feedback'></div>
@@ -92,7 +109,7 @@ const EditProfile = () => {
                         placeholder='Change your email'
                         name='email'
                         value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        onChange={onChange}
                       />
 
                       <div className='invalid-feedback'></div>
@@ -107,7 +124,7 @@ const EditProfile = () => {
                     placeholder='Write your bio'
                     value={bio}
                     name='bio'
-                    onChange={(e) => setBio(e.target.value)}></textarea>
+                    onChange={onChange}></textarea>
 
                   <div className='invalid-feedback'></div>
                 </Form.Group>
@@ -121,7 +138,7 @@ const EditProfile = () => {
                         placeholder='Enter your phone no.'
                         name='phone'
                         value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
+                        onChange={onChange}
                       />
 
                       <div className='invalid-feedback'></div>
@@ -135,7 +152,7 @@ const EditProfile = () => {
                         placeholder='Enter url'
                         name='url'
                         value={url}
-                        onChange={(e) => setUrl(e.target.value)}
+                        onChange={onChange}
                       />
 
                       <div className='invalid-feedback'></div>
@@ -150,7 +167,7 @@ const EditProfile = () => {
                     placeholder='I studied...'
                     name='studied'
                     value={studied}
-                    onChange={(e) => setStudied(e.target.value)}
+                    onChange={onChange}
                   />
                 </Form.Group>
 
@@ -161,7 +178,7 @@ const EditProfile = () => {
                     placeholder='Enter your job'
                     name='job'
                     value={job}
-                    onChange={(e) => setJob(e.target.value)}
+                    onChange={onChange}
                   />
 
                   <div className='invalid-feedback'></div>
@@ -174,7 +191,7 @@ const EditProfile = () => {
                     placeholder='Enter your job position'
                     name='position'
                     value={position}
-                    onChange={(e) => setPosition(e.target.value)}
+                    onChange={onChange}
                   />
                 </Form.Group>
 

@@ -13,6 +13,8 @@ import Profile from './screens/Profile'
 import EditProfile from './screens/EditProfile'
 import OtherProfile from './screens/OtherProfile'
 
+import { ToastContainer } from 'react-toastify'
+
 function App() {
   return (
     <Router>
@@ -29,6 +31,7 @@ function App() {
           </Routes>
         </Container>
         <Footer />
+        <ToastContainer />
       </div>
     </Router>
   )

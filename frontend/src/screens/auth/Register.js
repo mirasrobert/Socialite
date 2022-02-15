@@ -3,45 +3,65 @@ import { Form, Button, Row, Col } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom'
 import Loader from '../../components/Loader'
 import Message from '../../components/Message'
-import { register } from '../../actions/userActions'
+import { register, reset } from '../../features/auth/authSlice'
 import { useDispatch, useSelector } from 'react-redux'
+import { toast } from 'react-toastify'
 
 const Register = () => {
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [confirmPassword, setConfirmPassword] = useState('')
-  const [message, setMessage] = useState('')
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+  })
+
+  const { name, email, password, confirmPassword } = formData
+
+  const onChange = (e) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }))
+  }
 
   const navigate = useNavigate()
 
   const dispatch = useDispatch()
 
-  const userRegister = useSelector((state) => state.userRegister) // get the userRegister from the state
-
-  const { loading, userInfo, errors } = userRegister // destructure userInfo that got from the state
+  const { user, isLoading, isError, isSuccess, errors } = useSelector(
+    (state) => state.auth
+  )
 
   useEffect(() => {
-    if (userInfo && userInfo.token) {
+    if (isError && typeof errors === 'string') {
+      toast.error(errors)
+    }
+
+    if (isSuccess || user) {
       navigate('/newsfeed')
     }
-  }, [userInfo])
+  }, [user, isError, isSuccess, errors, navigate, dispatch])
 
   const submitHandler = (e) => {
     e.preventDefault()
 
     if (password !== confirmPassword) {
-      setMessage('Password does not match')
+      toast.error('Passwords do not match')
     } else {
       // DISPATCH REGISTER
-      dispatch(register(name, email, password))
+      const userData = {
+        name,
+        email,
+        password,
+      }
+
+      dispatch(register(userData))
     }
   }
 
   // Errors
   const nameError =
     errors &&
-    !loading &&
     Array.isArray(errors) &&
     errors.length > 0 &&
     errors.find((err) => err.param === 'name')
@@ -50,7 +70,6 @@ const Register = () => {
 
   const emailError =
     errors &&
-    !loading &&
     Array.isArray(errors) &&
     errors.length > 0 &&
     errors.find((err) => err.param === 'email')
@@ -59,7 +78,6 @@ const Register = () => {
 
   const passwordError =
     errors &&
-    !loading &&
     Array.isArray(errors) &&
     errors.length > 0 &&
     errors.find((err) => err.param === 'password')
@@ -71,11 +89,12 @@ const Register = () => {
       <Row className='d-flex justify-content-center'>
         <Col md={8}>
           <h3 className='display-4 text-uppercase'>SIGN UP</h3>
-          {message && <Message variant='danger'>{message}</Message>}
-          {typeof errors === 'string' && (
+          {typeof errors === 'string' && isError ? (
             <Message variant='danger'>{errors}</Message>
+          ) : (
+            <></>
           )}
-          {loading && <Loader />}
+          {isLoading && <Loader />}
           <Form onSubmit={submitHandler}>
             <Form.Group className='mb-3'>
               <Form.Label>Name</Form.Label>
@@ -85,7 +104,7 @@ const Register = () => {
                 name='name'
                 value={name}
                 className={nameError}
-                onChange={(e) => setName(e.target.value)}
+                onChange={onChange}
               />
 
               <div className='invalid-feedback'>
@@ -106,7 +125,7 @@ const Register = () => {
                 name='email'
                 value={email}
                 className={emailError}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={onChange}
               />
 
               <div className='invalid-feedback'>
@@ -131,7 +150,7 @@ const Register = () => {
                 name='password'
                 value={password}
                 className={passwordError}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={onChange}
               />
 
               <div className='invalid-feedback'>
@@ -151,8 +170,7 @@ const Register = () => {
                 placeholder='Confirm password'
                 name='confirmPassword'
                 value={confirmPassword}
-                className={message && 'is-invalid'}
-                onChange={(e) => setConfirmPassword(e.target.value)}
+                onChange={onChange}
               />
             </Form.Group>
 

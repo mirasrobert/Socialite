@@ -5,7 +5,7 @@ exports.validate = (method) => {
     case 'addPostValidation': {
       return [
         body('text').notEmpty().withMessage('Text is required').trim().escape(),
-        body('tags').notEmpty().withMessage('Tags is required').trim().escape(),
+        // body('tags').notEmpty().withMessage('Tags is required').trim().escape(),
       ]
     }
 
