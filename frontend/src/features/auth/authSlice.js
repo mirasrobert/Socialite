@@ -106,12 +106,14 @@ export const authSlice = createSlice({
     reset: (state) => {
       state.isLoading = false
       state.isSuccess = false
+      state.isError = false
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(register.pending, (state) => {
         state.isLoading = true
+        state.errors = null
       })
       .addCase(register.fulfilled, (state, action) => {
         state.isLoading = false
@@ -127,6 +129,7 @@ export const authSlice = createSlice({
       })
       .addCase(login.pending, (state) => {
         state.isLoading = true
+        state.errors = null
       })
       .addCase(login.fulfilled, (state, action) => {
         state.isLoading = false

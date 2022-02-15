@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { Card, Image, Row, Col } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import { getAllPosts } from '../../features/posts/postSlice'
+import { getAllPosts, reset } from '../../features/posts/postSlice'
 import Loader from '../Loader'
 import Message from '../Message'
 
@@ -15,6 +15,8 @@ const Post = () => {
   )
 
   useEffect(() => {
+    dispatch(reset())
+
     dispatch(getAllPosts())
   }, [dispatch])
 

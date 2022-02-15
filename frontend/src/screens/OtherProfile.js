@@ -62,7 +62,7 @@ const Profile = () => {
                   {profile && profile.name}
                 </h5>
                 <p className='text-muted fz-base'>
-                  {profile && profile.bio && user.bio}
+                  {profile && profile.bio && profile.bio}
                 </p>
               </div>
             </div>
@@ -80,10 +80,10 @@ const Profile = () => {
                       </td>
                       <td>
                         <p className='text-muted mb-0'>
-                          {user &&
-                            user.contact &&
-                            user.contact.url &&
-                            user.contact.url}
+                          {profile &&
+                            profile.contact &&
+                            profile.contact.url &&
+                            profile.contact.url}
                         </p>
                       </td>
                     </tr>
@@ -93,7 +93,7 @@ const Profile = () => {
                       </td>
                       <td>
                         <p className='text-muted mb-0'>
-                          {profile && profile.email && user.email}
+                          {profile && profile.email && profile.email}
                         </p>
                       </td>
                     </tr>
@@ -103,10 +103,10 @@ const Profile = () => {
                       </td>
                       <td>
                         <p className='text-muted mb-0'>
-                          {user &&
-                            user.contact &&
-                            user.contact.phone &&
-                            user.contact.phone}
+                          {profile &&
+                            profile.contact &&
+                            profile.contact.phone &&
+                            profile.contact.phone}
                         </p>
                       </td>
                     </tr>
@@ -125,7 +125,7 @@ const Profile = () => {
                       </td>
                       <td>
                         <p className='text-muted mb-0'>
-                          {profile && profile.job && user.job}
+                          {profile && profile.job && profile.job}
                         </p>
                       </td>
                     </tr>
@@ -135,7 +135,7 @@ const Profile = () => {
                       </td>
                       <td>
                         <p className='text-muted mb-0'>
-                          {profile && profile.position && user.position}
+                          {profile && profile.position && profile.position}
                         </p>
                       </td>
                     </tr>
@@ -145,7 +145,7 @@ const Profile = () => {
                       </td>
                       <td>
                         <p className='text-muted mb-0'>
-                          {profile && profile.studied && user.studied}
+                          {profile && profile.studied && profile.studied}
                         </p>
                       </td>
                     </tr>
@@ -155,7 +155,7 @@ const Profile = () => {
                       </td>
                       <td>
                         <p className='text-muted mb-0'>
-                          {user && moment(user.createdAt).format('LL')}
+                          {profile && moment(profile.createdAt).format('LL')}
                         </p>
                       </td>
                     </tr>

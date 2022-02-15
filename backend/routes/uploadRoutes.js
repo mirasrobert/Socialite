@@ -7,6 +7,7 @@ router.post('/', async (req, res) => {
     const fileStr = req.body.data
     const uploadResponse = await cloudinary.uploader.upload(fileStr, {
       upload_preset: 'dev_preset',
+      quality: 50,
     })
     console.log(uploadResponse)
 

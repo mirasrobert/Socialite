@@ -40,6 +40,10 @@ const Register = () => {
     if (isSuccess || user) {
       navigate('/newsfeed')
     }
+
+    dispatch(reset())
+
+
   }, [user, isError, isSuccess, errors, navigate, dispatch])
 
   const submitHandler = (e) => {
@@ -89,11 +93,6 @@ const Register = () => {
       <Row className='d-flex justify-content-center'>
         <Col md={8}>
           <h3 className='display-4 text-uppercase'>SIGN UP</h3>
-          {typeof errors === 'string' && isError ? (
-            <Message variant='danger'>{errors}</Message>
-          ) : (
-            <></>
-          )}
           {isLoading && <Loader />}
           <Form onSubmit={submitHandler}>
             <Form.Group className='mb-3'>

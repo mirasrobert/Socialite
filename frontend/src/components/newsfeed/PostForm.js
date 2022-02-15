@@ -69,7 +69,6 @@ const Post = () => {
 
     let postData = {
       text,
-      tags,
     }
 
     if (selectedFile) {
@@ -92,17 +91,17 @@ const Post = () => {
         dispatch(
           createPost({
             text,
-            tags,
             image: imageResponse.data.secure_url,
           })
         )
         toast.success('Post added')
       }
       reader.onerror = () => {
-        console.error('AHHHHHHHH!!')
         toast.error('Error Uploading Image')
       }
     } else {
+      console.log(postData)
+
       dispatch(createPost(postData))
       toast.success('Post added')
     }

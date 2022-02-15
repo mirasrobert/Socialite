@@ -48,8 +48,10 @@ export const postSlice = createSlice({
   initialState,
   reducers: {
     reset: (state) => {
-      state.isLoading = false
+      state.isLoading = true
       state.isSuccess = false
+      state.isError = false
+      state.posts = []
     },
   },
   extraReducers: (builder) => {
