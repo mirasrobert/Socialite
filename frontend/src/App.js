@@ -1,4 +1,3 @@
-import './App.css'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import { Container } from 'react-bootstrap'
 
@@ -20,17 +19,13 @@ function App() {
     <Router>
       <div className='App'>
         <Header />
-        <Container>
-          <Routes>
+        <Routes>
             <Route path='/' element={<Login />} />
             <Route path='/register' element={<Register />} />
             <Route path='/newsfeed' element={<NewsFeed />} />
-            <Route path='/profile' element={<Profile />} />
-            <Route path='/profiles/:id' element={<OtherProfile />} />
+            <Route path='/profile/:id' element={<Profile />} />
             <Route path='/profile/edit' element={<EditProfile />} />
-          </Routes>
-        </Container>
-        <Footer />
+        </Routes>
         <ToastContainer />
       </div>
     </Router>

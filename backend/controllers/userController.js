@@ -9,7 +9,7 @@ const User = require('../models/userModel')
 const getAllUsers = asyncHandler(async (req, res) => {
   const user = await User.find()
     .sort([['createdAt', '-1']])
-    .limit(6)
+    .limit(20)
 
   res.status(200).json(user)
 })

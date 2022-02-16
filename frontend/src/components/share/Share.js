@@ -1,12 +1,13 @@
+import './Share.css'
 import axios from 'axios'
 import { useState, useEffect } from 'react'
-import { Card, Image, Form, Button, Row, Col } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import { createPost } from '../../features/posts/postSlice'
+import { createPost, reset } from '../../features/posts/postSlice'
 import { toast } from 'react-toastify'
 
-const Post = () => {
-  const { token } = useSelector((state) => state.auth.user.token)
+const Share = () => {
+  const user = useSelector((state) => state.auth.user)
+  const token = user.token
 
   const [fileInputState, setFileInputState] = useState('')
   const [previewSource, setPreviewSource] = useState('')
@@ -46,6 +47,8 @@ const Post = () => {
   const { posts, isError, isSuccess, isLoading, errors } = useSelector(
     (state) => state.posts
   )
+
+  const avatar = useSelector((state) => state.auth.user.avatar)
 
   let textError =
     errors &&
@@ -100,8 +103,6 @@ const Post = () => {
         toast.error('Error Uploading Image')
       }
     } else {
-      console.log(postData)
-
       dispatch(createPost(postData))
       toast.success('Post added')
     }
@@ -117,63 +118,64 @@ const Post = () => {
   }
 
   return (
-    <>
-      <div className='status-wrapper'>
-        <Form onSubmit={onSubmitHandler}>
-          <div className='post-form-wrapper'>
-            <div className='profile-pic-form'>
-              <img
-                src='https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y'
-                alt=''
-              />
-            </div>
-
-            <textarea
-              className={`post-form ${textError}`}
-              placeholder="What's on your mind"
-              value={text}
+    <div className='share'>
+      <form className='d-inline-block w-100' onSubmit={onSubmitHandler}>
+        <div className='shareWrapper'>
+          <div className='shareTop'>
+            <img className='shareProfileImg' src={avatar} alt='' />
+            <input
+              className='shareInput'
+              placeholder='Whats in your mind?'
               name='text'
-              onChange={onChange}></textarea>
+              value={text}
+              required
+              onChange={onChange}
+            />
           </div>
-
-          <div className='ms-5 text-danger'>
-            {errors &&
-            textError != '' &&
-            Array.isArray(errors) &&
-            errors.length > 0 &&
-            errors.filter((err) => err.param === 'text').length > 0
-              ? errors.filter((err) => err.param === 'text')[0].msg
-              : ''}
+          <hr className='shareHr' />
+          <div className='shareBottom'>
+            <div className='shareOptions'>
+              <div className='shareOption'>
+                <label className='shareImgLabel' htmlFor='image'>
+                  <i className='fas fa-images shareIcon text-danger'></i>
+                  <span className='shareOptionText'>Photo or Video</span>
+                  <input
+                    className='d-none'
+                    type='file'
+                    name='image'
+                    id='image'
+                    onChange={handleFileInputChange}
+                    value={fileInputState}
+                    accept='image/png, image/jpeg, image/jpg'
+                  />
+                </label>
+              </div>
+              <div className='shareOption'>
+                <i className='fas fa-tag shareIcon text-info'></i>
+                <span className='shareOptionText'>Tag</span>
+              </div>
+              <div className='shareOption'>
+                <i className='fas fa-location-arrow shareIcon text-success'></i>
+                <span className='shareOptionText'>Location</span>
+              </div>
+              <div className='shareOption'>
+                <i className='far fa-grin-alt shareIcon text-warning'></i>
+                <span className='shareOptionText'>Feelings</span>
+              </div>
+            </div>
+            <div>
+              <button className='shareButton btn-success' type='submit'>
+                Share
+              </button>
+            </div>
           </div>
-
-          <div className='add-button'>
-            <label htmlFor='image' className='photo-video-btn'>
-              <i className='fas fa-images'></i>
-              <p>Photo or Video</p>
-
-              <input
-                className='d-none'
-                type='file'
-                name='image'
-                id='image'
-                onChange={handleFileInputChange}
-                value={fileInputState}
-                accept='image/png, image/jpeg, image/jpg'
-              />
-            </label>
-
-            <button className='btn btn-success' type='submit'>
-              Share
-            </button>
-          </div>
-        </Form>
-
-        {previewSource && (
-          <img src={previewSource} className='img-preview' alt=''></img>
-        )}
-      </div>
-    </>
+          {previewSource && (
+            <img src={previewSource} className='shareImgPreview' alt=''></img>
+          )}
+        </div>
+      </form>
+    </div>
   )
 }
 
-export default Post
+export default Share

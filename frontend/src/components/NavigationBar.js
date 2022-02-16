@@ -1,10 +1,11 @@
 import { useEffect } from 'react'
-import { Navbar, Nav, NavDropdown, Container } from 'react-bootstrap'
+import { Container } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { logout } from '../features/auth/authSlice'
 import { useNavigate } from 'react-router-dom'
 
+import { Image } from 'react-bootstrap'
 const NavigationBar = () => {
   const dispatch = useDispatch()
 
@@ -15,7 +16,7 @@ const NavigationBar = () => {
   const { user, isLoading } = auth
 
   useEffect(() => {
-    if ((!user || !user.token) && !isLoading) {
+    if (!user || !user.token) {
       // Check if logged in
       return navigate('/')
     }
@@ -28,45 +29,59 @@ const NavigationBar = () => {
 
   return (
     <>
-      <Navbar bg='primary' variant='primary' className='nav mb-4'>
+      <nav className='navbar navbar-expand-lg navbar-dark bg-info'>
         <Container>
-          <LinkContainer to={!user || !user.token ? '/' : '/newsfeed'}>
-            <Navbar.Brand href='#home'>
-              <img
-                alt=''
-                src='https://react-bootstrap.github.io/logo.svg'
-                width='30'
-                height='30'
-                className='d-inline-block align-top'
-              />{' '}
-              <span className='text-white'>Socialite</span>
-            </Navbar.Brand>
+          <LinkContainer className='navbar-brand' to={user ? '/newsfeed' : '/'}>
+            <span>CodeGram</span>
           </LinkContainer>
-
-          <Navbar.Collapse id='basic-navbar-nav'>
-            <Nav className='ms-auto'>
-              {user ? (
-                <NavDropdown title={user.name} id='basic-nav-dropdown'>
-                  <LinkContainer to='/profile'>
-                    <NavDropdown.Item>Profile</NavDropdown.Item>
-                  </LinkContainer>
-
-                  <NavDropdown.Item onClick={logoutHandler}>
-                    Logout
-                  </NavDropdown.Item>
-                </NavDropdown>
-              ) : (
-                <LinkContainer to='/'>
-                  <Nav.Link>
-                    {' '}
-                    <i className='fas fa-user'></i> Sign In
-                  </Nav.Link>
-                </LinkContainer>
+          <button
+            className='navbar-toggler'
+            type='button'
+            data-bs-toggle='collapse'
+            data-bs-target='#navbarSupportedContent'
+            aria-controls='navbarSupportedContent'
+            aria-expanded='false'
+            aria-label='Toggle navigation'>
+            <span className='navbar-toggler-icon'></span>
+          </button>
+          <div className='collapse navbar-collapse' id='navbarSupportedContent'>
+            <ul className='navbar-nav ms-auto mb-2 mb-lg-0'>
+              {user && (
+                <li className='nav-item dropdown'>
+                  <a
+                    className='nav-link'
+                    href='#'
+                    id='navbarDropdown'
+                    role='button'
+                    data-bs-toggle='dropdown'
+                    aria-expanded='false'>
+                    <Image src={user && user.avatar} className='navbarAvatar' />
+                    <span className='ms-2 text-white'>{ user.name }</span>
+                  </a>
+                  <ul
+                    className='dropdown-menu dropdown-menu-end'
+                    aria-labelledby='navbarDropdown'>
+                    <li>
+                      <LinkContainer
+                        className='dropdown-item'
+                        to={user ? `/profile/${user._id}` : '/'}>
+                        <span>
+                          Profile
+                        </span>
+                      </LinkContainer>
+                    </li>
+                    <li onClick={logoutHandler}>
+                      <a className='dropdown-item' href='#!'>
+                        Logout
+                      </a>
+                    </li>
+                  </ul>
+                </li>
               )}
-            </Nav>
-          </Navbar.Collapse>
+            </ul>
+          </div>
         </Container>
-      </Navbar>
+      </nav>
     </>
   )
 }
