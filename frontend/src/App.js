@@ -10,7 +10,6 @@ import Register from './screens/auth/Register'
 import NewsFeed from './screens/NewsFeed'
 import Profile from './screens/Profile'
 import EditProfile from './screens/EditProfile'
-import OtherProfile from './screens/OtherProfile'
 
 import { ToastContainer } from 'react-toastify'
 

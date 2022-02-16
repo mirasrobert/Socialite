@@ -1,9 +1,8 @@
 import { useEffect } from 'react'
 import { Container } from 'react-bootstrap'
-import { LinkContainer } from 'react-router-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { logout } from '../features/auth/authSlice'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 
 import { Image } from 'react-bootstrap'
 const NavigationBar = () => {
@@ -31,9 +30,9 @@ const NavigationBar = () => {
     <>
       <nav className='navbar navbar-expand-lg navbar-dark bg-info'>
         <Container>
-          <LinkContainer className='navbar-brand' to={user ? '/newsfeed' : '/'}>
+          <Link className='navbar-brand' to={user ? '/newsfeed' : '/'}>
             <span>CodeGram</span>
-          </LinkContainer>
+          </Link>
           <button
             className='navbar-toggler'
             type='button'
@@ -56,19 +55,17 @@ const NavigationBar = () => {
                     data-bs-toggle='dropdown'
                     aria-expanded='false'>
                     <Image src={user && user.avatar} className='navbarAvatar' />
-                    <span className='ms-2 text-white'>{ user.name }</span>
+                    <span className='ms-2 text-white'>{user.name}</span>
                   </a>
                   <ul
                     className='dropdown-menu dropdown-menu-end'
                     aria-labelledby='navbarDropdown'>
                     <li>
-                      <LinkContainer
+                      <Link
                         className='dropdown-item'
                         to={user ? `/profile/${user._id}` : '/'}>
-                        <span>
-                          Profile
-                        </span>
-                      </LinkContainer>
+                        <span>Profile</span>
+                      </Link>
                     </li>
                     <li onClick={logoutHandler}>
                       <a className='dropdown-item' href='#!'>

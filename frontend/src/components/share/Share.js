@@ -5,10 +5,13 @@ import { useDispatch, useSelector } from 'react-redux'
 import { createPost, reset } from '../../features/posts/postSlice'
 import { toast } from 'react-toastify'
 
+import Loader from '../Loader'
+
 const Share = () => {
   const user = useSelector((state) => state.auth.user)
   const token = user.token
 
+  const [disabled, setDisabled] = useState(true)
   const [fileInputState, setFileInputState] = useState('')
   const [previewSource, setPreviewSource] = useState('')
   const [selectedFile, setSelectedFile] = useState('')
@@ -36,6 +39,13 @@ const Share = () => {
   const { tags, text } = formData
 
   const onChange = (e) => {
+    // Disable Button If Input is Empty
+    if (e.target.name == 'text' && e.target.value.length > 0) {
+      setDisabled(false)
+    } else {
+      setDisabled(true)
+    }
+
     setFormData((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value,
@@ -164,7 +174,10 @@ const Share = () => {
               </div>
             </div>
             <div>
-              <button className='shareButton btn-success' type='submit'>
+              <button
+                className='shareButton btn-success'
+                type='submit'
+                disabled={disabled || isLoading}>
                 Share
               </button>
             </div>
