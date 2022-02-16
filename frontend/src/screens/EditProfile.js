@@ -73,17 +73,14 @@ const EditProfile = () => {
         <Loader />
       ) : (
         <div>
-          <div className='d-flex justify-content-start'>
-            <LinkContainer to='/profile'>
-              <Button variant='secondary' type='button'>
-                <i className='fas fa-arrow-alt-circle-left pe-2'></i>
-                Back
-              </Button>
-            </LinkContainer>
-          </div>
-
-          <Row className='d-flex justify-content-center mb-5'>
+          <Row className='d-flex justify-content-center mb-5 pt-5'>
             <Col md={8}>
+              <LinkContainer className={'mb-3'} to={`/profile/${user._id}`}>
+                <Button variant='secondary' type='button'>
+                  <i className='fas fa-arrow-alt-circle-left pe-2'></i>
+                  Back
+                </Button>
+              </LinkContainer>
               <h3 className='display-4 text-uppercase'>EDIT PROFILE</h3>
               <Form onSubmit={submitHandler}>
                 <Row>

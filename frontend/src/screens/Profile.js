@@ -1,7 +1,7 @@
 import './Profile.css'
 import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams, Link } from 'react-router-dom'
 import Sidebar from '../components/sidebar/Sidebar'
 import Feed from '../components/feed/Feed'
 import Rightbar from '../components/rightbar/Rightbar'
@@ -65,6 +65,9 @@ const Profile = () => {
                   <span className='profileInfoDesc'>
                     {profile && profile.bio}
                   </span>
+                  {profile && user && profile._id === user._id && (
+                    <Link to='/profile/edit'>Edit Profile</Link>
+                  )}
                 </div>
               </div>
               <div className='profileRightBottom'>
