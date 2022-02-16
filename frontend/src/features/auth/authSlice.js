@@ -150,10 +150,19 @@ export const authSlice = createSlice({
         state.isLoading = true
       })
       .addCase(updateProfile.fulfilled, (state, action) => {
+
+
+        localStorage.removeItem('user')
+
+        const user = JSON.stringify(action.payload)
+
+        localStorage.setItem('user', user)
+
         state.isLoading = false
         state.isSuccess = true
         state.user = action.payload
         state.errors = null
+
       })
       .addCase(updateProfile.rejected, (state, action) => {
         state.isLoading = false
