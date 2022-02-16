@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Form, Button, Row, Col } from 'react-bootstrap'
+import { Form, Button, Row, Col, Container } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom'
 import Loader from '../../components/Loader'
 import { toast } from 'react-toastify'
@@ -74,78 +74,80 @@ const Login = () => {
 
   return (
     <>
-      <Row className='d-flex justify-content-center'>
-        <Col md={8}>
-          <h3 className='display-4 text-uppercase'>SIGN IN</h3>
-          {typeof errors === 'string' && isError ? (
-            <Message variant='danger'>{errors}</Message>
-          ) : (
-            <></>
-          )}
-          {isLoading ? (
-            <Loader />
-          ) : (
-            <Form onSubmit={submitHandler}>
-              <Form.Group className='mb-3'>
-                <Form.Label>Email address</Form.Label>
-                <Form.Control
-                  type='email'
-                  placeholder='Enter email'
-                  name='email'
-                  className={emailError}
-                  value={email}
-                  onChange={onChange}
-                />
+      <Container>
+        <Row className='d-flex justify-content-center'>
+          <Col md={8}>
+            <h3 className='display-4 text-uppercase'>SIGN IN</h3>
+            {typeof errors === 'string' && isError ? (
+              <Message variant='danger'>{errors}</Message>
+            ) : (
+              <></>
+            )}
+            {isLoading ? (
+              <Loader />
+            ) : (
+              <Form onSubmit={submitHandler}>
+                <Form.Group className='mb-3'>
+                  <Form.Label>Email address</Form.Label>
+                  <Form.Control
+                    type='email'
+                    placeholder='Enter email'
+                    name='email'
+                    className={emailError}
+                    value={email}
+                    onChange={onChange}
+                  />
 
-                <div className='invalid-feedback'>
-                  {errors &&
-                  Array.isArray(errors) &&
-                  errors.length > 0 &&
-                  errors.filter((err) => err.param === 'email').length > 0
-                    ? errors.filter((err) => err.param === 'email')[0].msg
-                    : ''}
+                  <div className='invalid-feedback'>
+                    {errors &&
+                    Array.isArray(errors) &&
+                    errors.length > 0 &&
+                    errors.filter((err) => err.param === 'email').length > 0
+                      ? errors.filter((err) => err.param === 'email')[0].msg
+                      : ''}
+                  </div>
+                </Form.Group>
+
+                <Form.Group className='mb-3'>
+                  <Form.Label>Password</Form.Label>
+                  <Form.Control
+                    type='password'
+                    placeholder='Password'
+                    name='password'
+                    className={passwordError}
+                    value={password}
+                    onChange={onChange}
+                  />
+
+                  <div className='invalid-feedback'>
+                    {errors &&
+                    Array.isArray(errors) &&
+                    errors.length > 0 &&
+                    errors.filter((err) => err.param === 'password').length > 0
+                      ? errors.filter((err) => err.param === 'password')[0].msg
+                      : ''}
+                  </div>
+
+                  <Form.Text className='text-muted'>
+                    Never share your password with anyone else.
+                  </Form.Text>
+                </Form.Group>
+                <Form.Group className='mb-3'>
+                  <Form.Check type='checkbox' label='Remember me' />
+                </Form.Group>
+                <Button variant='primary' type='submit'>
+                  Submit
+                </Button>
+
+                <div className='py-2'>
+                  <span className='me-2'>Haven't join yet?</span>
+                  <Link to='/register'>Join Us</Link>
                 </div>
-              </Form.Group>
-
-              <Form.Group className='mb-3'>
-                <Form.Label>Password</Form.Label>
-                <Form.Control
-                  type='password'
-                  placeholder='Password'
-                  name='password'
-                  className={passwordError}
-                  value={password}
-                  onChange={onChange}
-                />
-
-                <div className='invalid-feedback'>
-                  {errors &&
-                  Array.isArray(errors) &&
-                  errors.length > 0 &&
-                  errors.filter((err) => err.param === 'password').length > 0
-                    ? errors.filter((err) => err.param === 'password')[0].msg
-                    : ''}
-                </div>
-
-                <Form.Text className='text-muted'>
-                  Never share your password with anyone else.
-                </Form.Text>
-              </Form.Group>
-              <Form.Group className='mb-3'>
-                <Form.Check type='checkbox' label='Remember me' />
-              </Form.Group>
-              <Button variant='primary' type='submit'>
-                Submit
-              </Button>
-
-              <div className='py-2'>
-                <span className='me-2'>Haven't join yet?</span>
-                <Link to='/register'>Join Us</Link>
-              </div>
-            </Form>
-          )}
-        </Col>
-      </Row>
+              </Form>
+            )}
+          </Col>
+        </Row>
+      </Container>
     </>
   )
 }

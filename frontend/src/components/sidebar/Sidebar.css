@@ -1,5 +1,5 @@
 .sidebar {
-  flex: 3;
+  width: 100%;
   height: calc(100vh - 56px);
   overflow-y: auto;
 }
@@ -71,20 +71,20 @@
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
   .sidebar {
-    flex: 0;
+    display: none;
   }
 }
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (min-width: 600px) {
   .sidebar {
-    flex: 0;
+    width: 100%;
   }
 }
 
 /* Large devices (laptops/desktops, 992px and up) */
 @media only screen and (min-width: 992px) {
   .sidebar {
-    flex: 3;
+    width: 100%;
   }
 }

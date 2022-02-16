@@ -160,11 +160,11 @@ const Share = () => {
                   />
                 </label>
               </div>
-              <div className='shareOption'>
+              <div className='shareOption d-none d-sm-block'>
                 <i className='fas fa-tag shareIcon text-info'></i>
                 <span className='shareOptionText'>Tag</span>
               </div>
-              <div className='shareOption'>
+              <div className='shareOption d-none d-sm-block'>
                 <i className='fas fa-location-arrow shareIcon text-success'></i>
                 <span className='shareOptionText'>Location</span>
               </div>

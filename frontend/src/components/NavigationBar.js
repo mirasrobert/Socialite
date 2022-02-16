@@ -28,7 +28,7 @@ const NavigationBar = () => {
 
   return (
     <>
-      <nav className='navbar navbar-expand-lg navbar-dark bg-info'>
+      <nav className='navbar navbar-expand-lg navbar-dark bg-info w-100'>
         <Container>
           <Link className='navbar-brand' to={user ? '/newsfeed' : '/'}>
             <span>CodeGram</span>

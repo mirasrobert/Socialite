@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Form, Button, Row, Col } from 'react-bootstrap'
+import { Form, Button, Row, Col, Container } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom'
 import Loader from '../../components/Loader'
 import Message from '../../components/Message'
@@ -42,8 +42,6 @@ const Register = () => {
     }
 
     dispatch(reset())
-
-
   }, [user, isError, isSuccess, errors, navigate, dispatch])
 
   const submitHandler = (e) => {
@@ -90,103 +88,105 @@ const Register = () => {
 
   return (
     <>
-      <Row className='d-flex justify-content-center'>
-        <Col md={8}>
-          <h3 className='display-4 text-uppercase'>SIGN UP</h3>
-          {isLoading && <Loader />}
-          <Form onSubmit={submitHandler}>
-            <Form.Group className='mb-3'>
-              <Form.Label>Name</Form.Label>
-              <Form.Control
-                type='text'
-                placeholder='Enter your name'
-                name='name'
-                value={name}
-                className={nameError}
-                onChange={onChange}
-              />
+      <Container>
+        <Row className='d-flex justify-content-center'>
+          <Col md={8}>
+            <h3 className='display-4 text-uppercase'>SIGN UP</h3>
+            {isLoading && <Loader />}
+            <Form onSubmit={submitHandler}>
+              <Form.Group className='mb-3'>
+                <Form.Label>Name</Form.Label>
+                <Form.Control
+                  type='text'
+                  placeholder='Enter your name'
+                  name='name'
+                  value={name}
+                  className={nameError}
+                  onChange={onChange}
+                />
 
-              <div className='invalid-feedback'>
-                {errors &&
-                Array.isArray(errors) &&
-                errors.length > 0 &&
-                errors.filter((err) => err.param === 'name').length > 0
-                  ? errors.filter((err) => err.param === 'name')[0].msg
-                  : ''}
+                <div className='invalid-feedback'>
+                  {errors &&
+                  Array.isArray(errors) &&
+                  errors.length > 0 &&
+                  errors.filter((err) => err.param === 'name').length > 0
+                    ? errors.filter((err) => err.param === 'name')[0].msg
+                    : ''}
+                </div>
+              </Form.Group>
+
+              <Form.Group className='mb-3'>
+                <Form.Label>Email address</Form.Label>
+                <Form.Control
+                  type='email'
+                  placeholder='Enter email'
+                  name='email'
+                  value={email}
+                  className={emailError}
+                  onChange={onChange}
+                />
+
+                <div className='invalid-feedback'>
+                  {errors &&
+                  Array.isArray(errors) &&
+                  errors.length > 0 &&
+                  errors.filter((err) => err.param === 'email').length > 0
+                    ? errors.filter((err) => err.param === 'email')[0].msg
+                    : ''}
+                </div>
+
+                <Form.Text className='text-muted'>
+                  We'll never share your email with anyone else.
+                </Form.Text>
+              </Form.Group>
+
+              <Form.Group className='mb-3'>
+                <Form.Label>Password</Form.Label>
+                <Form.Control
+                  type='password'
+                  placeholder='Password'
+                  name='password'
+                  value={password}
+                  className={passwordError}
+                  onChange={onChange}
+                />
+
+                <div className='invalid-feedback'>
+                  {errors &&
+                  Array.isArray(errors) &&
+                  errors.length > 0 &&
+                  errors.filter((err) => err.param === 'password').length > 0
+                    ? errors.filter((err) => err.param === 'password')[0].msg
+                    : ''}
+                </div>
+              </Form.Group>
+
+              <Form.Group className='mb-3'>
+                <Form.Label>Confirm Password</Form.Label>
+                <Form.Control
+                  type='password'
+                  placeholder='Confirm password'
+                  name='confirmPassword'
+                  value={confirmPassword}
+                  onChange={onChange}
+                />
+              </Form.Group>
+
+              <Form.Group className='mb-3'>
+                <Form.Check type='checkbox' label='Remember me' />
+              </Form.Group>
+              <Button variant='primary' type='submit'>
+                Register
+              </Button>
+
+              <div className='py-2'>
+                <span className='me-2'>Already have an account?</span>
+                <Link to='/'>Login</Link>
               </div>
-            </Form.Group>
-
-            <Form.Group className='mb-3'>
-              <Form.Label>Email address</Form.Label>
-              <Form.Control
-                type='email'
-                placeholder='Enter email'
-                name='email'
-                value={email}
-                className={emailError}
-                onChange={onChange}
-              />
-
-              <div className='invalid-feedback'>
-                {errors &&
-                Array.isArray(errors) &&
-                errors.length > 0 &&
-                errors.filter((err) => err.param === 'email').length > 0
-                  ? errors.filter((err) => err.param === 'email')[0].msg
-                  : ''}
-              </div>
-
-              <Form.Text className='text-muted'>
-                We'll never share your email with anyone else.
-              </Form.Text>
-            </Form.Group>
-
-            <Form.Group className='mb-3'>
-              <Form.Label>Password</Form.Label>
-              <Form.Control
-                type='password'
-                placeholder='Password'
-                name='password'
-                value={password}
-                className={passwordError}
-                onChange={onChange}
-              />
-
-              <div className='invalid-feedback'>
-                {errors &&
-                Array.isArray(errors) &&
-                errors.length > 0 &&
-                errors.filter((err) => err.param === 'password').length > 0
-                  ? errors.filter((err) => err.param === 'password')[0].msg
-                  : ''}
-              </div>
-            </Form.Group>
-
-            <Form.Group className='mb-3'>
-              <Form.Label>Confirm Password</Form.Label>
-              <Form.Control
-                type='password'
-                placeholder='Confirm password'
-                name='confirmPassword'
-                value={confirmPassword}
-                onChange={onChange}
-              />
-            </Form.Group>
-
-            <Form.Group className='mb-3'>
-              <Form.Check type='checkbox' label='Remember me' />
-            </Form.Group>
-            <Button variant='primary' type='submit'>
-              Register
-            </Button>
-
-            <div className='py-2'>
-              <span className='me-2'>Already have an account?</span>
-              <Link to='/'>Login</Link>
-            </div>
-          </Form>
-        </Col>
-      </Row>
+            </Form>
+          </Col>
+        </Row>
+      </Container>
     </>
   )
 }
