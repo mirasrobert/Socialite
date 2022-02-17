@@ -97,7 +97,7 @@ const deletePost = asyncHandler(async (req, res) => {
   if (post) {
     res.status(200).json({ id: req.params.id })
   } else {
-    throw new Erro('Something went wrong updating post.')
+    throw new Error('Something went wrong updating post.')
   }
 })
 
@@ -110,10 +110,26 @@ const getMyPosts = asyncHandler(async (req, res) => {
   res.status(200).json(posts)
 })
 
+const likePost = asyncHandler(async (req, res) => {
+  const post = await Post.findById(req.params.id) // Get the post
+
+  if (!post.likes.includes(req.body.userId)) {
+    // If user id is not include in array then its not liked
+
+    await post.updateOne({ $push: { likes: req.body.userId } }) // Push
+    res.status(200).json('The post has been liked')
+  } else {
+    // Remove like if exists
+    await post.updateOne({ $pull: { likes: req.body.userId } }) // Pull or Remove
+    res.status(200).json('The post has been disliked')
+  }
+})
+
 module.exports = {
   getPosts,
   addPost,
   updatePost,
   deletePost,
   getMyPosts,
+  likePost
 }

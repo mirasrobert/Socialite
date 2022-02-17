@@ -14,6 +14,10 @@ const postShema = mongoose.Schema(
     image: {
       type: String,
     },
+    likes: {
+      type: Array,
+      default: [],
+    },
   },
   {
     timestamps: true,

@@ -6,6 +6,7 @@ const {
   updatePost,
   deletePost,
   getMyPosts,
+  likePost,
 } = require('../controllers/postController')
 
 const postRequest = require('../request/postsValidation')
@@ -23,5 +24,7 @@ router
   .delete(protect, deletePost)
 
 router.get('/my', protect, getMyPosts)
+
+router.put('/:id/like', protect, likePost)
 
 module.exports = router
