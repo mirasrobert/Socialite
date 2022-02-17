@@ -27,22 +27,9 @@ const addPost = async (postData, token) => {
   return response.data // return all posts
 }
 
-const likedPost = async (data, token) => {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  }
-
-  const response = await axios.put(API_URL + data.postId + '/like', data.userID, config)
-
-  return response.data // return all posts
-}
-
 const postService = {
   getPosts,
   addPost,
-  likedPost,
 }
 
 export default postService

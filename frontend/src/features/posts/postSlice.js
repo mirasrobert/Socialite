@@ -43,23 +43,6 @@ export const createPost = createAsyncThunk(
   }
 )
 
-// Like/Dislike Post
-export const likedPost = createAsyncThunk(
-  'posts/like',
-  async (data, thunkAPI) => {
-    try {
-      const token = thunkAPI.getState().auth.user.token
-      return await postService.likedPost(data, token) 
-    } catch (error) {
-      const message =
-        error.response && error.response.data.errors
-          ? error.response.data.errors
-          : error.errors
-      return thunkAPI.rejectWithValue(message)
-    }
-  }
-)
-
 export const postSlice = createSlice({
   name: 'posts',
   initialState,
