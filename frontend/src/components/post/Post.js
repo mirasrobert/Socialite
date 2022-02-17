@@ -5,11 +5,16 @@ import moment from 'moment'
 
 import axios from 'axios'
 import { useState } from 'react'
-import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
+
+import { deletePost } from '../../features/posts/postSlice'
 
 const Post = ({ post }) => {
   const [likes, setLikes] = useState(post.likes.length)
   const [isLiked, setIsLiked] = useState(false)
+
+  const dispatch = useDispatch()
 
   const user = useSelector((state) => state.auth.user)
 
@@ -36,7 +41,9 @@ const Post = ({ post }) => {
       <div className='postWrapper'>
         <div className='postTop'>
           <div className='postTopLeft'>
-            <img className='postProfileImg' src={post.user.avatar} alt='' />
+            <Link to={`/profile/${post.user._id}`}>
+              <img className='postProfileImg' src={post.user.avatar} alt='' />
+            </Link>
             <div className='postTopLeftText'>
               <span className='postUsername'>{post.user.name}</span>
               <span className='postDate text-muted'>
@@ -45,7 +52,30 @@ const Post = ({ post }) => {
             </div>
           </div>
           <div className='postTopRight'>
-            <i className='fas fa-ellipsis-v'></i>
+            {user && post.user._id.toString() === user._id.toString() && (
+              <div className='dropdown'>
+                <button
+                  className='btn'
+                  type='button'
+                  id='dropdownMenuButton1'
+                  data-bs-toggle='dropdown'
+                  aria-expanded='false'>
+                  <i className='fas fa-ellipsis-v'></i>
+                </button>
+                <ul
+                  className='dropdown-menu'
+                  aria-labelledby='dropdownMenuButton1'>
+                  <li
+                    onClick={() => {
+                      dispatch(deletePost(post._id))
+                    }}>
+                    <a className='dropdown-item' href='#'>
+                      Delete
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            )}
           </div>
         </div>
         <div className='postCenter'>

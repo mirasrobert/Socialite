@@ -27,9 +27,23 @@ const addPost = async (postData, token) => {
   return response.data // return all posts
 }
 
+// Delete Post
+const deletePost = async (id, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
+
+  const response = await axios.delete(API_URL + id, config)
+
+  return response.data
+}
+
 const postService = {
   getPosts,
   addPost,
+  deletePost,
 }
 
 export default postService
