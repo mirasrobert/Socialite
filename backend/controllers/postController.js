@@ -13,6 +13,22 @@ const getPosts = asyncHandler(async (req, res) => {
   res.status(200).json(posts)
 })
 
+// @desc    Get single post
+// @route   GET /api/posts/:id
+// @access  Private
+const getPost = asyncHandler(async (req, res) => {
+  // Get the post
+  const post = await Post.findById(req.params.id)
+    .populate('user', ['name', 'avatar'])
+    .populate({
+      path: 'comments',
+      populate: 'user',
+    })
+    .sort([['createdAt', '-1']])
+
+  res.status(200).json(post)
+})
+
 // @desc    Add a post
 // @route   POST /api/posts
 // @access  Private
@@ -125,11 +141,74 @@ const likePost = asyncHandler(async (req, res) => {
   }
 })
 
+// @desc    Add a comment
+// @route   POST /api/post/:id/comments
+// @access  Private
+const addComment = asyncHandler(async (req, res) => {
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() })
+  }
+
+  const post = await Post.findOne({ _id: req.params.id })
+
+  if (!post) {
+    throw new Error('Post not found')
+  }
+
+  post.comments.unshift({
+    user: req.user._id,
+    text: req.body.text,
+  }) // Add comment
+
+  await post.save()
+
+  res.status(201).json(post.comments)
+})
+
+// @desc    Delete a comment
+// @route   DELETE /api/post/:id/comments/:commentId
+// @access  Private
+const deleteComment = asyncHandler(async (req, res) => {
+  const post = await Post.findOne({ _id: req.params.id })
+
+  // Check for post if exist
+  if (!post) {
+    throw new Error('Post not found')
+  }
+
+  // Get the subdocument
+  const comment = user.comments.id(req.params.commentId)
+
+  if (comment.user !== req.user._id) {
+    throw new Error('Not authorized')
+  }
+
+  // Return the index by condition
+  const removeIndex = post.comments.findIndex(
+    (comment) => comment.id == req.params.commentId
+  )
+
+  // No address index found
+  if (removeIndex === -1) {
+    throw new Error('Comment not found')
+  }
+
+  post.comments.splice(removeIndex, 1) // Remove the item on the array by index
+
+  await post.save() // Save
+
+  res.json(post)
+})
+
 module.exports = {
   getPosts,
+  getPost,
   addPost,
   updatePost,
   deletePost,
   getMyPosts,
-  likePost
+  likePost,
+  addComment,
+  deleteComment,
 }

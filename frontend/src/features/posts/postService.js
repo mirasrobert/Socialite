@@ -15,6 +15,19 @@ const getPosts = async (token) => {
   return response.data // return all posts
 }
 
+// Get Single Posts on the server
+const getSinglePost = async (id, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
+
+  const { data } = await axios.get(API_URL + id, config)
+
+  return data // return single posts
+}
+
 const addPost = async (postData, token) => {
   const config = {
     headers: {
@@ -44,6 +57,7 @@ const postService = {
   getPosts,
   addPost,
   deletePost,
+  getSinglePost,
 }
 
 export default postService

@@ -1,20 +1,17 @@
-import React from 'react'
+import moment from 'moment'
 
-const CommentBox = () => {
+const CommentBox = ({ comment }) => {
   return (
     <div className='commentBox'>
-      <img
-        className='commentUserImg'
-        src='https://randomuser.me/api/portraits/men/14.jpg'
-        alt=''
-      />
+      <img className='commentUserImg' src={comment.user.avatar} alt='' />
       <div className='commentText'>
         <p>
-          <span className='commentUsername'>Robert Miras</span>
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Molestias
-          rem, ab non aliquid nesciunt ex!
+          <span className='commentUsername'>{comment.user.name}</span>
+          {comment.text}
         </p>
-        <small className='text-muted m-0 p-0 commentDate'>3 mins ago</small>
+        <small className='text-muted m-0 p-0 commentDate'>
+          {moment(comment.createdAt).fromNow()}
+        </small>
       </div>
     </div>
   )

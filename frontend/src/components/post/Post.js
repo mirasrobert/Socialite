@@ -17,6 +17,7 @@ const Post = ({ post }) => {
 
   const [likes, setLikes] = useState(post.likes.length)
   const [isLiked, setIsLiked] = useState(post.likes.includes(user.token))
+  const [commentsCount, setCommentsCount] = useState(post.comments.length)
 
   const likeHandler = () => {
     try {
@@ -96,9 +97,9 @@ const Post = ({ post }) => {
             <div className='postLikeCounter'>{likes} people liked it</div>
           </div>
           <div className='postBottomRight'>
-            <a href='#!' className='text-decoration-none'>
-              <i className='fas fa-comment-alt'></i> 7 comments
-            </a>  
+            <Link to={`/post/${post._id}`} className='text-decoration-none'>
+              <i className='fas fa-comment-alt'></i> {commentsCount} comments
+            </Link>
           </div>
         </div>
       </div>

@@ -3,17 +3,17 @@ import './Comment.css'
 import CommentForm from './CommentForm'
 import CommentBox from './CommentBox'
 
-const Comment = () => {
+const Comment = ({ comments }) => {
   return (
     <>
       <div className='comment'>
         <div className='commentWrapper'>
           <CommentForm />
 
-          <CommentBox />
-          <CommentBox />
-          <CommentBox />
-          <CommentBox />
+          { comments.map(comment => (
+            <CommentBox key={comment._id} comment={comment} />
+          )) }
+          
         </div>
       </div>
     </>

@@ -1,31 +1,30 @@
-import React from 'react'
-
+import { useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
 import { Row, Container, Col } from 'react-bootstrap'
 import Post from '../components/post/Post'
 import Sidebar from '../components/sidebar/Sidebar'
 import Rightbar from '../components/rightbar/Rightbar'
 import Comment from '../components/comment/Comment'
-import CommentForm from '../components/comment/CommentForm'
+import { getSinglePost, reset } from '../features/posts/postSlice'
+
+import Loader from '../components/Loader'
+import Message from '../components/Message'
 
 const SinglePost = () => {
   const { id } = useParams()
 
-  const post = {
-    _id: '6210944ec05fba73c3cc7e94',
-    user: {
-      _id: '620cf03eb2f1953293eea8b4',
-      name: 'Robert Miras',
-      avatar:
-        'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y',
-    },
-    text: 'TestPost',
-    likes: [],
-    comments: [],
-    createdAt: '2022-02-19T06:55:10.435Z',
-    updatedAt: '2022-02-19T06:55:10.435Z',
-    __v: 0,
-  }
+  const dispatch = useDispatch()
+
+  const { post, isLoading, isError, errors } = useSelector(
+    (state) => state.posts
+  )
+
+  useEffect(() => {
+    dispatch(reset())
+
+    dispatch(getSinglePost(id))
+  }, [])
 
   return (
     <Row>
@@ -34,9 +33,16 @@ const SinglePost = () => {
       </Col>
 
       <Col sm={12} md={6} lg={6}>
-        <Post post={post} />
-
-        <Comment />
+        {isLoading ? (
+          <Loader />
+        ) : isError && errors ? (
+          <Message variant={'danger'}>{errors}</Message>
+        ) : (
+          <>
+            {post && <Post post={post} />}
+            {post && <Comment comments={post.comments} />}
+          </>
+        )}
       </Col>
 
       <Col className='d-sm-none d-md-block d-sm-block' md={3}>
