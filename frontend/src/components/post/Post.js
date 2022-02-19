@@ -11,12 +11,12 @@ import { useSelector, useDispatch } from 'react-redux'
 import { deletePost } from '../../features/posts/postSlice'
 
 const Post = ({ post }) => {
-  const [likes, setLikes] = useState(post.likes.length)
-  const [isLiked, setIsLiked] = useState(false)
-
   const dispatch = useDispatch()
 
   const user = useSelector((state) => state.auth.user)
+
+  const [likes, setLikes] = useState(post.likes.length)
+  const [isLiked, setIsLiked] = useState(post.likes.includes(user.token))
 
   const likeHandler = () => {
     try {
@@ -95,7 +95,11 @@ const Post = ({ post }) => {
             />
             <div className='postLikeCounter'>{likes} people liked it</div>
           </div>
-          <div className='postBottomRight'></div>
+          <div className='postBottomRight'>
+            <a href='#!' className='text-decoration-none'>
+              <i className='fas fa-comment-alt'></i> 7 comments
+            </a>  
+          </div>
         </div>
       </div>
     </div>

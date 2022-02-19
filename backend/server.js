@@ -19,6 +19,7 @@ app.use(express.urlencoded({ extended: false, limit: '50mb' }))
 app.use('/api/users', require('./routes/userRoutes'))
 app.use('/api/posts', require('./routes/postRoutes'))
 app.use('/api/upload', require('./routes/uploadRoutes'))
+app.use('/api/comments', require('./routes/commentRoutes'))
 
 // For Deployment
 if (process.env.NODE_ENV === 'production') {

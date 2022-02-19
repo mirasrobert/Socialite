@@ -89,7 +89,7 @@ const Register = () => {
   return (
     <>
       <Container>
-        <Row className='d-flex justify-content-center'>
+        <Row className='d-flex justify-content-center py-5'>
           <Col md={8}>
             <h3 className='display-4 text-uppercase'>SIGN UP</h3>
             {isLoading && <Loader />}

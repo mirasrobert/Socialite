@@ -75,7 +75,7 @@ const Login = () => {
   return (
     <>
       <Container>
-        <Row className='d-flex justify-content-center'>
+        <Row className='d-flex justify-content-center mt-5 pt-3'>
           <Col md={8}>
             <h3 className='display-4 text-uppercase'>SIGN IN</h3>
             {typeof errors === 'string' && isError ? (
