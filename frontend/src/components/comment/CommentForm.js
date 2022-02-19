@@ -1,11 +1,13 @@
 import { useState } from 'react'
 
 import { createComment } from '../../features/posts/postSlice'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 const CommentForm = ({ postId }) => {
   const dispatch = useDispatch()
   const [text, setText] = useState('')
+
+  const { user } = useSelector((state) => state.auth)
 
   const onSumbitHandler = (e) => {
     e.preventDefault()
@@ -22,11 +24,7 @@ const CommentForm = ({ postId }) => {
 
   return (
     <div className='commentForm'>
-      <img
-        className='commentUserImg'
-        src='https://randomuser.me/api/portraits/men/14.jpg'
-        alt=''
-      />
+      {user && <img className='commentUserImg' src={user.avatar} alt='' />}
       <form onSubmit={onSumbitHandler} className='d-inline-block'>
         <input
           className='shareInput'
