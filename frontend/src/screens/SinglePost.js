@@ -40,7 +40,7 @@ const SinglePost = () => {
         ) : (
           <>
             {post && <Post post={post} />}
-            {post && <Comment comments={post.comments} />}
+            {post && <Comment postId={post._id} comments={post.comments} />}
           </>
         )}
       </Col>

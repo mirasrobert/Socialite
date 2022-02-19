@@ -150,7 +150,10 @@ const addComment = asyncHandler(async (req, res) => {
     return res.status(400).json({ errors: errors.array() })
   }
 
-  const post = await Post.findOne({ _id: req.params.id })
+  const post = await Post.findOne({ _id: req.params.id }).populate({
+    path: 'comments',
+    populate: 'user',
+  })
 
   if (!post) {
     throw new Error('Post not found')
@@ -159,11 +162,16 @@ const addComment = asyncHandler(async (req, res) => {
   post.comments.unshift({
     user: req.user._id,
     text: req.body.text,
-  }) // Add comment
+  })
 
   await post.save()
 
-  res.status(201).json(post.comments)
+  let singlepost = await Post.findOne({ _id: req.params.id }).populate({
+    path: 'comments',
+    populate: 'user',
+  })
+
+  res.status(201).json(singlepost.comments)
 })
 
 // @desc    Delete a comment

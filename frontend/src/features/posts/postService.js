@@ -28,6 +28,7 @@ const getSinglePost = async (id, token) => {
   return data // return single posts
 }
 
+// Add post
 const addPost = async (postData, token) => {
   const config = {
     headers: {
@@ -53,11 +54,29 @@ const deletePost = async (id, token) => {
   return response.data
 }
 
+// Add comment
+const addComment = async (data, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
+
+  const response = await axios.post(
+    `${API_URL}/${data.id}/comments`,
+    data.commentData,
+    config
+  )
+
+  return response.data // return all posts
+}
+
 const postService = {
   getPosts,
   addPost,
   deletePost,
   getSinglePost,
+  addComment,
 }
 
 export default postService
