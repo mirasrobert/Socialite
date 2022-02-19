@@ -10,6 +10,7 @@ import Register from './screens/auth/Register'
 import NewsFeed from './screens/NewsFeed'
 import Profile from './screens/Profile'
 import EditProfile from './screens/EditProfile'
+import SinglePost from './screens/SinglePost'
 
 import { ToastContainer } from 'react-toastify'
 
@@ -24,6 +25,7 @@ function App() {
             <Route path='/newsfeed' element={<NewsFeed />} />
             <Route path='/profile/:id' element={<Profile />} />
             <Route path='/profile/edit' element={<EditProfile />} />
+            <Route path='/post/:id' element={<SinglePost />} />
         </Routes>
         <ToastContainer />
       </div>
