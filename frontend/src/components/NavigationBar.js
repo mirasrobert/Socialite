@@ -31,7 +31,7 @@ const NavigationBar = () => {
       <nav className='navbar navbar-expand-lg navbar-dark bg-info w-100'>
         <Container>
           <Link className='navbar-brand' to={user ? '/newsfeed' : '/'}>
-            <span>CodeGram</span>
+            <span>Socialite</span>
           </Link>
           <button
             className='navbar-toggler'
